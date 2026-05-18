@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=1440"/>
+<title>Sales Channels · XpressBees Seller Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F4F3EF;--surface:#FFF;--s2:#F8F7F3;--s3:#EEECEA;
+  --border:#E2E0D8;--border2:#C5C3BB;
+  --ink:#1A190F;--ink2:#5C5B52;--ink3:#9B998F;
+  --orange:#E8520A;--ol:#FEF0E8;--om:#F5C09A;
+  --red:#C52E18;--rl:#FDECEA;
+  --green:#1A6B3A;--gl:#E7F5ED;--gm:#8DD4A9;
+  --amber:#9E5A00;--al:#FFF5E5;--am:#F5C878;
+  --blue:#1246A0;--bl:#EAF0FD;--bm:#8EAFF0;
+  --gray:#6B6A62;--gray-l:#EEECE9;--gray-m:#C3C1B8;
+  --radius:10px;--radius-sm:7px;
+  --shadow:0 1px 3px rgba(0,0,0,.04);--shadow-md:0 2px 8px rgba(0,0,0,.07);--shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5;overflow:hidden}
+.shell{display:flex;height:100vh}
+.sb{width:54px;background:#0F0E09;flex-shrink:0;display:flex;flex-direction:column;align-items:center;padding:14px 0 18px;gap:4px}
+.sb-logo{width:34px;height:34px;background:var(--orange);border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.sb-logo svg{width:18px;height:18px;fill:#fff}
+.sb-i{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#46443C;transition:all .15s}
+.sb-i:hover{background:#1C1B14;color:#8A8878}.sb-i.on{background:var(--orange);color:#fff}.sb-i svg{width:16px;height:16px}
+.sb-sep{width:26px;height:1px;background:#222118;margin:5px 0}.sb-f{flex:1}
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden}
+.topbar{height:52px;background:var(--surface);border-bottom:1px solid var(--border);padding:0 22px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.tb-srch{flex:1;max-width:440px;display:flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--border);border-radius:8px;height:34px;padding:0 12px}
+.tb-srch svg{width:13px;height:13px;color:var(--ink3);flex-shrink:0}
+.tb-srch input{border:none;background:transparent;outline:none;font-family:var(--font);font-size:12px;color:var(--ink);width:100%}
+.tb-srch input::placeholder{color:var(--ink3)}
+.tb-r{display:flex;align-items:center;gap:8px;margin-left:auto}
+.av{width:30px;height:30px;border-radius:50%;background:var(--ol);border:1.5px solid var(--om);font-size:11px;font-weight:700;color:var(--orange);display:flex;align-items:center;justify-content:center}
+.page{flex:1;overflow-y:auto}.page::-webkit-scrollbar{width:6px}.page::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.bc{padding:14px 24px 0;display:flex;align-items:center;gap:6px;font-size:12px}
+.bc-link{color:var(--orange);font-weight:600;cursor:pointer}.bc-link:hover{opacity:.75}
+.bc-sep{color:var(--ink3);font-size:10px}.bc-cur{color:var(--ink2);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0 16px;height:36px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:var(--font);white-space:nowrap}
+.btn-p{background:var(--orange);color:#fff}.btn-p:hover{opacity:.88}
+.btn-s{background:var(--surface);color:var(--ink2);border:1.5px solid var(--border)}.btn-s:hover{border-color:var(--border2)}
+.btn-sm{height:30px;padding:0 12px;font-size:12px;border-radius:7px}
+.view{display:none}.view.on{display:block}
+.view-flex{display:none}.view-flex.on{display:flex}
+
+/* ── Channel cards (empty state grid) ── */
+.ch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.chcard{background:var(--surface);border:1.5px solid var(--border);border-radius:13px;padding:20px;display:flex;flex-direction:column;gap:12px;cursor:pointer;transition:all .2s;min-height:148px}
+.chcard:hover{border-color:var(--border2);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.chcard:hover .cc-btn{background:var(--orange);color:#fff;border-color:var(--orange)}
+.cc-logo-box{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--s2);border:1px solid var(--border);flex-shrink:0;overflow:hidden}
+.cc-name{font-size:14px;font-weight:700;color:var(--ink)}
+.cc-desc{font-size:11px;color:var(--ink3);line-height:1.4}
+.cc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.cc-btn{height:28px;padding:0 14px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--surface);color:var(--ink2);transition:all .15s;font-family:var(--font)}
+.cc-btn:hover{border-color:var(--orange);color:var(--orange);background:var(--ol)}
+.chcard-add{background:var(--surface);border:2px dashed var(--border2);border-radius:13px;padding:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;min-height:148px;gap:8px;text-align:center}
+.chcard-add:hover{border-color:var(--orange);background:var(--ol)}
+.chcard-add:hover .cc-add-ico{color:var(--orange);border-color:var(--orange)}
+.chcard-add:hover .cc-add-lbl{color:var(--orange)}
+.cc-add-ico{width:38px;height:38px;border-radius:50%;border:2px dashed var(--border2);display:flex;align-items:center;justify-content:center;color:var(--ink3);transition:all .2s}
+.cc-add-lbl{font-size:13px;font-weight:600;color:var(--ink2)}
+.cc-add-sub{font-size:11px;color:var(--ink3)}
+
+/* ── Tip banner ── */
+.tip-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.tip-ico{width:32px;height:32px;border-radius:8px;background:var(--ol);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── Connected table ── */
+.ch-tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px}
+table.ch-tbl{width:100%;border-collapse:collapse}
+.ch-tbl thead tr{background:var(--s2)}
+.ch-tbl th{padding:10px 16px;text-align:left;font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.45px;border-bottom:1px solid var(--border);white-space:nowrap}
+.ch-tbl td{padding:14px 16px;border-bottom:1px solid var(--border);font-size:12px;color:var(--ink2);vertical-align:middle}
+.ch-tbl tr:last-child td{border-bottom:none}
+.ch-tbl tr:hover td{background:var(--s2)}
+.store-name{font-size:13px;font-weight:700;color:var(--ink)}
+.store-id{font-size:11px;color:var(--ink3);font-family:var(--mono);margin-top:2px}
+.platform-cell{display:flex;align-items:center;gap:8px}
+.platform-logo{width:32px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:var(--s2);border:1px solid var(--border);flex-shrink:0;overflow:hidden}
+.sync-line{font-size:11px;color:var(--ink2);line-height:1.8}
+.sync-lbl{color:var(--ink3)}.sync-val{color:var(--ink);font-weight:500}
+.conn-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:var(--gl);color:var(--green)}
+.conn-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.tog{position:relative;width:38px;height:22px;cursor:pointer;display:inline-flex;align-items:center}
+.tog input{opacity:0;width:0;height:0;position:absolute}
+.tog-track{width:38px;height:22px;border-radius:11px;background:var(--gray-m);transition:background .15s}
+.tog input:checked+.tog-track{background:var(--gm)}
+.tog-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.2);pointer-events:none}
+.tog input:checked~.tog-thumb{transform:translateX(16px)}
+
+/* Popular section */
+.pop-sec{background:#EEF9F6;border-radius:12px;padding:20px 24px}
+.pop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+.pop-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.pop-link{font-size:11px;color:var(--blue);cursor:pointer}.pop-link:hover{text-decoration:underline}
+.pop-cta{height:28px;padding:0 16px;border-radius:7px;border:1.5px solid var(--border2);background:var(--surface);font-size:12px;font-weight:600;color:var(--ink2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.pop-cta:hover{border-color:var(--orange);color:var(--orange);background:var(--ol)}
+.pop-note{font-size:10px;color:var(--ink3);line-height:1.4}
+.view-all{text-align:center;margin-top:14px;font-size:12px;color:var(--orange);font-weight:600;cursor:pointer}
+.view-all:hover{text-decoration:underline}
+
+/* ── Edit Channel ── */
+.ec-hdr{padding:16px 24px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ec-back{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;transition:color .15s}
+.ec-back:hover{color:var(--orange)}
+.ec-body{flex:1;overflow-y:auto;padding:24px}
+.ec-body::-webkit-scrollbar{width:5px}.ec-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.ec-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:20px;margin-bottom:18px}
+.ec-card-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px}
+.ec-card-sub{font-size:11px;color:var(--ink3);margin-bottom:14px;line-height:1.5}
+.ec-2col{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.ec-field{margin-bottom:12px}.ec-field:last-child{margin-bottom:0}
+.ec-label{font-size:11px;font-weight:700;color:var(--ink2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;display:block}
+.ec-input{width:100%;height:38px;border:1.5px solid var(--border);border-radius:7px;padding:0 12px;font-size:13px;font-family:var(--font);color:var(--ink);background:var(--s2);outline:none;transition:all .15s}
+.ec-input:focus{border-color:var(--orange);background:var(--surface);box-shadow:0 0 0 3px var(--ol)}
+.ec-input[readonly]{color:var(--ink3)}
+.ec-input::placeholder{color:var(--ink3)}
+.ec-select{width:100%;height:34px;border:1.5px solid var(--border);border-radius:7px;padding:0 10px;font-size:12px;font-family:var(--font);color:var(--ink);background:var(--s2);outline:none;-webkit-appearance:none;cursor:pointer;transition:border-color .15s}
+.ec-select:focus{border-color:var(--orange)}
+.ec-radio{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;margin-bottom:8px}
+.ec-radio:last-child{margin-bottom:0}
+.ec-radio:hover{border-color:var(--border2);background:var(--s2)}
+.ec-radio.sel{border-color:var(--orange);background:var(--ol)}
+.ec-radio input{margin-top:2px;accent-color:var(--orange);flex-shrink:0}
+.ec-radio-title{font-size:12px;font-weight:600;color:var(--ink)}
+.ec-radio-desc{font-size:11px;color:var(--ink3);margin-top:1px;line-height:1.4}
+.ec-info{background:var(--bl);border:1px solid var(--bm);border-radius:9px;padding:14px 16px;font-size:12px;color:var(--blue);line-height:1.6}
+.ec-info ul{margin-left:14px;margin-top:6px}.ec-info li{margin-bottom:4px;line-height:1.5}
+.ec-meta-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+.ec-meta-row:last-child{border-bottom:none}
+.ec-meta-lbl{font-size:12px;color:var(--ink3)}.ec-meta-val{font-size:12px;color:var(--ink);font-weight:600}
+.ec-map-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)}
+.ec-map-row:last-child{border-bottom:none}
+.ec-map-lbl{font-size:12px;color:var(--ink2)}
+.ec-tag-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.ec-tag-row:last-child{border-bottom:none}
+.ec-tag-q{font-size:12px;color:var(--ink2);flex:1;padding-right:16px;line-height:1.5}
+.ec-yesno{display:flex;gap:14px}
+.ec-yesno label{display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;color:var(--ink2)}
+.ec-yesno input{accent-color:var(--orange)}
+.ec-upload{border:2px dashed var(--border2);border-radius:9px;padding:18px;text-align:center;cursor:pointer;transition:all .15s;background:var(--s2)}
+.ec-upload:hover{border-color:var(--orange);background:var(--ol)}
+.ec-note{font-size:10px;color:var(--ink3);margin-top:5px}
+.ec-ft{padding:14px 24px;border-top:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;bottom:0}
+
+/* Modal */
+.mo-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:800;display:none;align-items:center;justify-content:center}
+.mo-ov.sh{display:flex}
+.mo{background:#fff;border-radius:16px;width:520px;padding:40px;position:relative;text-align:center;box-shadow:var(--shadow-lg);animation:mopop .22s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mopop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.mo-x{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;border:1px solid #E8E8E8;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#6B7280;transition:all .12s}
+.mo-x:hover{background:#F5F5F5}
+.mo-ring{width:72px;height:72px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 0 10px rgba(26,107,58,.1),0 0 0 20px rgba(26,107,58,.05)}
+.mo-ring svg{width:34px;height:34px}
+.mo-title{font-size:19px;font-weight:700;color:#1A1A1A;margin-bottom:10px;letter-spacing:-.3px}
+.mo-sync{display:flex;align-items:center;gap:8px;font-size:13px;color:#6B7280;justify-content:center}
+.mo-sync-dot{width:13px;height:13px;border-radius:50%;border:2px solid #D1D5DB;flex-shrink:0}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:10px;font-size:12px;font-weight:500;z-index:999;transition:transform .25s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,.2)}
+.toast.sh{transform:translateX(-50%) translateY(0)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin-el{width:13px;height:13px;border:2px solid var(--border2);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.fade{animation:fi .3s ease}@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="sb">
+  <div class="sb-logo"><svg viewBox="0 0 20 20"><path d="M3 10L10 3l7 7M5 8.5v9h4v-5h2v5h4v-9"/></svg></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h12M4 8h8M4 12h10M4 16h6" stroke-linecap="round"/></svg></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 15l4-4 3 3 4-5 3 3" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h14" stroke-linecap="round"/></svg></div>
+  <div class="sb-sep"></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="14" rx="2"/><path d="M2 7h16" stroke-linecap="round"/></svg></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2L2 7v6l8 5 8-5V7L10 2z" stroke-linejoin="round"/></svg></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><path d="M7 9a3 3 0 015.5 1.5c0 1.5-2 2-2 3M10 15.5h.01" stroke-linecap="round"/></svg></div>
+  <div class="sb-f"></div><div class="sb-sep"></div>
+  <div class="sb-i on"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l4-4 4 4 4-4M3 15l4-4 4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="sb-i"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="3"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2" stroke-linecap="round"/></svg></div>
+</nav>
+
+<div class="main">
+<div class="topbar">
+  <div class="tb-srch">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3 3" stroke-linecap="round"/></svg>
+    <input type="text" placeholder="Search channels, integrations..."/>
+  </div>
+  <div class="tb-r">
+    <button class="btn btn-s btn-sm">Export</button>
+    <div class="av">MR</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 1 · EMPTY — all available channels
+     (no channels connected yet)
+═══════════════════════════════════════ -->
+<div class="view on page fade" id="v1">
+  <div class="bc"><span class="bc-link">Manage</span><span class="bc-sep">›</span><span class="bc-cur">Sales Channels</span></div>
+  <div style="padding:16px 24px 0;display:flex;align-items:flex-start;justify-content:space-between">
+    <div><div style="font-size:20px;font-weight:700;letter-spacing:-.4px">Sales Channels</div>
+      <div style="font-size:12px;color:var(--ink3);margin-top:2px">Connect &amp; manage your sales channels to automate order syncing with XpressBees</div>
+    </div>
+  </div>
+  <div style="padding:16px 24px 40px">
+    <div class="tip-bar">
+      <div class="tip-ico">
+        <svg viewBox="0 0 20 20" fill="none" stroke="var(--orange)" stroke-width="1.5" width="18" height="18">
+          <path d="M10 2a6 6 0 016 6c0 2.5-1.5 4.6-3.5 5.6V15a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1.4C5.5 12.6 4 10.5 4 8a6 6 0 016-6z" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 18h4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600;color:var(--ink)">Get started by connecting a sales channel</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:1px">Link your stores to automatically pull orders into XpressBees. Orders sync every few minutes once connected.</div>
+      </div>
+    </div>
+    <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px">Available Channels</div>
+    <div class="ch-grid">
+      <!-- Shopify -->
+      <div class="chcard" onclick="go('v2')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box" style="background:#F6F6F1"><svg width="32" height="32" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 108.44 122.88" style="enable-background:new 0 0 108.44 122.88" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#95BF47;} .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#5E8E3E;} .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}</style><g><path class="st0" d="M94.98,23.66c-0.09-0.62-0.63-0.96-1.08-1c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83 c-0.72-0.72-2.13-0.5-2.68-0.34c-0.01,0-1.37,0.43-3.68,1.14c-0.38-1.25-0.95-2.78-1.76-4.32c-2.6-4.97-6.42-7.6-11.03-7.61 c-0.01,0-0.01,0-0.02,0c-0.32,0-0.64,0.03-0.96,0.06c-0.14-0.16-0.27-0.32-0.42-0.48c-2.01-2.15-4.58-3.19-7.67-3.1 c-5.95,0.17-11.88,4.47-16.69,12.11c-3.38,5.37-5.96,12.12-6.69,17.35c-6.83,2.12-11.61,3.6-11.72,3.63 c-3.45,1.08-3.56,1.19-4.01,4.44C9.03,39.99,0,109.8,0,109.8l75.65,13.08l32.79-8.15C108.44,114.73,95.06,24.28,94.98,23.66 L94.98,23.66z M66.52,16.63c-1.74,0.54-3.72,1.15-5.87,1.82c-0.04-3.01-0.4-7.21-1.81-10.83C63.36,8.47,65.58,13.58,66.52,16.63 L66.52,16.63z M56.69,19.68c-3.96,1.23-8.29,2.57-12.63,3.91c1.22-4.67,3.54-9.33,6.38-12.38c1.06-1.14,2.54-2.4,4.29-3.12 C56.38,11.52,56.73,16.39,56.69,19.68L56.69,19.68z M48.58,3.97c1.4-0.03,2.57,0.28,3.58,0.94C50.55,5.74,49,6.94,47.54,8.5 c-3.78,4.06-6.68,10.35-7.83,16.43c-3.6,1.11-7.13,2.21-10.37,3.21C31.38,18.58,39.4,4.23,48.58,3.97L48.58,3.97z"/><path class="st1" d="M93.9,22.66c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83c-0.27-0.27-0.63-0.41-1.02-0.47l0,108.68 l32.78-8.15c0,0-13.38-90.44-13.46-91.06C94.9,23.04,94.35,22.7,93.9,22.66L93.9,22.66z"/><path class="st2" d="M57.48,39.52l-3.81,14.25c0,0-4.25-1.93-9.28-1.62c-7.38,0.47-7.46,5.12-7.39,6.29 c0.4,6.37,17.16,7.76,18.11,22.69c0.74,11.74-6.23,19.77-16.27,20.41c-12.05,0.76-18.69-6.35-18.69-6.35l2.55-10.86 c0,0,6.68,5.04,12.02,4.7c3.49-0.22,4.74-3.06,4.61-5.07c-0.52-8.31-14.18-7.82-15.04-21.48c-0.73-11.49,6.82-23.14,23.48-24.19 C54.2,37.88,57.48,39.52,57.48,39.52L57.48,39.52z"/></g></svg></div>
+          <div><div class="cc-name">Shopify</div><div class="cc-desc">Connect your Shopify store</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();go('v2')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- WooCommerce -->
+      <div class="chcard" onclick="toast('WooCommerce integration coming soon')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box" style="background:#F4EFF8;padding:4px"><svg width="36" height="22" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 503.81 299.89"><defs><style>.cls-1{fill:#7f54b3;}.cls-2{fill:#fff;}</style></defs><title>woocommerce</title><path class="cls-1" d="M46.75,0H456.84a46.94,46.94,0,0,1,47,47V203.5a46.94,46.94,0,0,1-47,47H309.78L330,299.89l-88.78-49.43H47a46.94,46.94,0,0,1-47-47V47A46.77,46.77,0,0,1,46.76,0Z"/><path class="cls-2" d="M28.69,42.8c2.86-3.89,7.16-5.94,12.9-6.35Q57.25,35.24,59.41,51.2,68.94,115.4,80.09,160l44.85-85.4q6.15-11.67,15.36-12.29c9-.61,14.54,5.12,16.8,17.2,5.12,27.24,11.67,50.38,19.45,70q8-78,27-112.64c3.07-5.73,7.57-8.6,13.51-9A17.8,17.8,0,0,1,230,32a16,16,0,0,1,6.35,11.67,17.79,17.79,0,0,1-2,9.83c-8,14.75-14.55,39.53-19.87,73.93-5.12,33.39-7,59.4-5.73,78a24.29,24.29,0,0,1-2.46,13.52c-2.46,4.51-6.15,7-10.86,7.37-5.32.41-10.85-2.05-16.17-7.57Q150.64,189.54,134,131.48q-20,39.32-29.49,59c-12.09,23.14-22.33,35-30.93,35.64C68,226.51,63.3,221.8,59.2,212Q43.54,171.72,25.41,56.52A17.44,17.44,0,0,1,28.69,42.8ZM468.81,75C461.43,62.05,450.58,54.27,436,51.2A53.72,53.72,0,0,0,425,50c-19.66,0-35.63,10.24-48.13,30.72a108.52,108.52,0,0,0-16,57.75q0,23.66,9.83,40.55c7.37,12.91,18.23,20.69,32.77,23.76A53.64,53.64,0,0,0,414.54,204c19.86,0,35.83-10.24,48.12-30.72a109.73,109.73,0,0,0,16-58C478.84,99.33,475.36,86,468.81,75ZM443,131.69c-2.86,13.51-8,23.55-15.56,30.31-5.94,5.32-11.47,7.57-16.59,6.55-4.92-1-9-5.32-12.08-13.31a52,52,0,0,1-3.69-18.64,71.48,71.48,0,0,1,1.43-14.95,66.29,66.29,0,0,1,10.86-24.37c6.76-10,13.92-14.13,21.3-12.7,4.91,1,9,5.33,12.08,13.31a52,52,0,0,1,3.69,18.64A71.47,71.47,0,0,1,443,131.69ZM340.6,75c-7.37-12.91-18.43-20.69-32.76-23.76A53.79,53.79,0,0,0,296.78,50c-19.66,0-35.64,10.24-48.13,30.72a108.52,108.52,0,0,0-16,57.75q0,23.66,9.83,40.55c7.37,12.91,18.22,20.69,32.76,23.76A53.72,53.72,0,0,0,286.33,204c19.87,0,35.84-10.24,48.13-30.72a109.72,109.72,0,0,0,16-58C350.43,99.33,347.16,86,340.6,75Zm-26,56.73c-2.86,13.51-8,23.55-15.56,30.31-5.94,5.32-11.47,7.57-16.59,6.55-4.91-1-9-5.32-12.08-13.31a52,52,0,0,1-3.69-18.64,71.48,71.48,0,0,1,1.43-14.95A66.29,66.29,0,0,1,279,97.28c6.76-10,13.92-14.13,21.3-12.7,4.91,1,9,5.33,12.08,13.31A52,52,0,0,1,316,116.53a60.45,60.45,0,0,1-1.44,15.16Z"/></svg></div>
+          <div><div class="cc-name">WooCommerce</div><div class="cc-desc">Sync WordPress store orders</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();toast('WooCommerce coming soon')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- BigCommerce -->
+      <div class="chcard" onclick="toast('BigCommerce coming soon')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box" style="background:#F3F2F5"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#34313f"><path d="M33.72 36.432h8.073c2.296 0 3.75-1.263 3.75-3.3 0-1.913-1.454-3.3-3.75-3.3H33.72c-.268 0-.497.23-.497.46v5.663c.038.268.23.46.497.46zm0 13.048h8.34c2.564 0 4.094-1.3 4.094-3.597 0-2-1.454-3.597-4.094-3.597h-8.34c-.268 0-.497.23-.497.46v6.237c.038.306.23.497.497.497zM63.257.16l-23.875 23.8h3.903c6.084 0 9.68 3.826 9.68 7.997 0 3.3-2.22 5.7-4.6 6.772-.383.153-.383.7.038.842 2.755 1.07 4.706 3.94 4.706 7.308 0 4.744-3.176 8.532-9.336 8.532H26.87c-.268 0-.497-.23-.497-.46V36.93L.164 63.023c-.344.344-.115.957.383.957h63.016c.23 0 .42-.2.42-.42V.505c.115-.42-.42-.65-.727-.344z"/></svg></div>
+          <div><div class="cc-name">BigCommerce</div><div class="cc-desc">Enterprise ecommerce platform</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();toast('BigCommerce coming soon')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- Amazon -->
+      <div class="chcard" onclick="toast('Amazon MCF coming soon')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box" style="background:#FFF8EE"><svg width="32" height="29" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.879 111.709" enable-background="new 0 0 122.879 111.709" xml:space="preserve"><g><path d="M33.848,54.85c0-5.139,1.266-9.533,3.798-13.182c2.532-3.649,5.995-6.404,10.389-8.266 c4.021-1.713,8.974-2.941,14.858-3.687c2.01-0.223,5.287-0.521,9.83-0.894v-1.899c0-4.766-0.521-7.968-1.564-9.607 c-1.564-2.235-4.021-3.351-7.373-3.351h-0.893c-2.458,0.223-4.581,1.005-6.368,2.345c-1.787,1.341-2.942,3.202-3.463,5.586 c-0.298,1.489-1.042,2.345-2.234,2.569l-12.847-1.564c-1.266-0.298-1.899-0.968-1.899-2.011c0-0.223,0.037-0.484,0.111-0.781 c1.266-6.628,4.375-11.543,9.328-14.746C50.473,2.161,56.264,0.373,62.893,0h2.793c8.488,0,15.117,2.197,19.885,6.591 c0.746,0.748,1.438,1.55,2.066,2.401c0.631,0.856,1.135,1.62,1.506,2.29c0.373,0.67,0.709,1.639,1.006,2.904 c0.299,1.267,0.521,2.142,0.672,2.625c0.148,0.484,0.26,1.527,0.334,3.129c0.074,1.601,0.111,2.55,0.111,2.848v27.034 c0,1.936,0.279,3.705,0.838,5.306c0.559,1.602,1.1,2.756,1.619,3.463c0.521,0.707,1.379,1.844,2.57,3.406 c0.447,0.672,0.67,1.268,0.67,1.789c0,0.596-0.297,1.115-0.895,1.563c-6.18,5.363-9.531,8.268-10.053,8.715 c-0.893,0.67-1.973,0.744-3.24,0.223c-1.041-0.895-1.953-1.75-2.736-2.57c-0.781-0.818-1.34-1.414-1.676-1.787 c-0.334-0.371-0.875-1.098-1.619-2.178s-1.268-1.807-1.564-2.178c-4.17,4.543-8.266,7.373-12.287,8.49 c-2.533,0.744-5.661,1.117-9.384,1.117c-5.735,0-10.445-1.77-14.131-5.307C35.691,66.336,33.848,61.328,33.848,54.85L33.848,54.85z M53.062,52.615c0,2.905,0.727,5.232,2.178,6.982c1.453,1.75,3.407,2.625,5.865,2.625c0.224,0,0.54-0.037,0.95-0.111 c0.408-0.076,0.688-0.113,0.838-0.113c3.127-0.818,5.547-2.828,7.26-6.031c0.82-1.415,1.434-2.96,1.844-4.636 c0.41-1.675,0.633-3.035,0.67-4.078c0.037-1.042,0.057-2.755,0.057-5.138v-2.793c-4.32,0-7.596,0.298-9.83,0.894 C56.338,42.077,53.062,46.21,53.062,52.615L53.062,52.615z"/><path fill="#FF9900" d="M99.979,88.586c0.15-0.299,0.373-0.596,0.672-0.895c1.861-1.266,3.648-2.121,5.361-2.568 c2.83-0.744,5.586-1.154,8.266-1.229c0.746-0.076,1.453-0.037,2.123,0.111c3.352,0.297,5.361,0.857,6.033,1.676 c0.297,0.447,0.445,1.117,0.445,2.01v0.783c0,2.605-0.707,5.678-2.121,9.215c-1.416,3.537-3.389,6.387-5.922,8.547 c-0.371,0.297-0.707,0.445-1.004,0.445c-0.15,0-0.299-0.037-0.447-0.111c-0.447-0.223-0.559-0.633-0.336-1.229 c2.756-6.479,4.133-10.984,4.133-13.518c0-0.818-0.148-1.414-0.445-1.787c-0.746-0.893-2.83-1.34-6.256-1.34 c-1.268,0-2.756,0.074-4.469,0.223c-1.861,0.225-3.574,0.447-5.139,0.672c-0.447,0-0.744-0.076-0.895-0.225 c-0.148-0.148-0.186-0.297-0.111-0.447C99.867,88.846,99.904,88.734,99.979,88.586L99.979,88.586z M0.223,86.688 c0.373-0.596,0.968-0.633,1.788-0.113c18.618,10.799,38.875,16.199,60.769,16.199c14.598,0,29.008-2.719,43.232-8.156 c0.371-0.148,0.912-0.371,1.619-0.67c0.709-0.297,1.211-0.521,1.508-0.67c1.117-0.447,1.992-0.223,2.625,0.67 c0.635,0.895,0.43,1.713-0.613,2.457c-1.342,0.969-3.055,2.086-5.139,3.352c-6.404,3.799-13.555,6.74-21.449,8.826 c-7.893,2.086-15.602,3.127-23.123,3.127c-11.618,0-22.603-2.029-32.954-6.088C18.134,101.563,8.862,95.846,0.67,88.475 C0.223,88.102,0,87.729,0,87.357C0,87.133,0.074,86.91,0.223,86.688L0.223,86.688z"/></g></svg></div>
+          <div><div class="cc-name">Amazon MCF</div><div class="cc-desc">Multi-Channel Fulfillment</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();toast('Amazon MCF coming soon')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- Wix -->
+      <div class="chcard" onclick="toast('Wix coming soon')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box" style="background:#000008"><svg width="30" height="30" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><path d="M505.999 16.669v478.66c0 5.888-4.782 10.67-10.67 10.67H16.67c-5.888 0-10.67-4.782-10.67-10.67V16.67c0-5.888 4.782-10.67 10.67-10.67h478.66C501.218 6 506 10.782 506 16.67z" fill="#000008"/><path d="M287.518 183.943c-7.713 3.863-11.063 11.063-11.063 30.613 0 0 3.863-3.857 10.038-6.175 4.5-1.67 7.712-3.857 10.031-5.532 6.688-5.012 7.719-11.056 7.719-21.606-.131 0-10.681-.644-16.725 2.7zM237.737 188.45c-6.688 5.53-8.363 15.05-8.363 15.05l-21.606 82.83-17.75-67.78c-1.669-7.207-5.012-16.082-10.031-22.25-6.175-7.85-19.037-8.363-20.581-8.363-1.156 0-13.888.512-20.575 8.362-5.019 6.17-8.363 15.044-10.031 22.25l-16.725 67.781-21.607-82.83s-1.668-8.876-8.362-15.05C71.562 178.93 56 181.25 56 181.25l41.156 154.987s13.375 1.156 20.069-2.188c8.868-4.5 13.375-7.719 18.387-28.937 5.019-18.913 18.394-73.956 19.425-77.819.513-1.669 1.669-6.687 5.013-6.687 3.343 0 4.506 4.5 5.018 6.687 1.157 3.863 14.406 58.906 19.419 77.819 5.531 21.093 9.394 24.437 18.394 28.937 6.687 3.344 20.062 2.188 20.062 2.188l40.9-154.988s-15.562-2.187-26.106 7.2zM304.118 214.556s-2.831 3.856-8.363 7.206c-3.856 2.181-7.2 3.344-11.056 5.525-6.694 3.35-8.362 6.694-8.362 11.706V344.08s10.543 1.157 17.237-2.187c8.869-4.506 10.544-8.875 10.544-27.781v-99.556zM405.618 259.062l52.218-77.3s-21.612-3.863-32.8 6.169c-7.2 6.175-14.406 17.75-14.406 17.75l-18.906 27.78c-1.156 1.676-2.188 2.832-3.856 2.832-1.675 0-3.344-1.669-3.863-2.831L365.1 205.68s-7.712-11.063-14.4-17.75c-11.062-10.032-32.8-6.169-32.8-6.169l50.544 77.169-51.7 77.174s22.762 2.832 33.956-7.206c7.2-6.175 13.888-16.719 13.888-16.719l18.906-27.78c1.156-1.676 2.187-2.832 3.856-2.832 1.675 0 3.35 1.675 3.862 2.831l18.907 27.781s7.2 10.544 13.893 16.72c11.057 10.037 33.307 7.205 33.307 7.205l-51.7-77.043z" fill="#fff" fill-rule="nonzero"/></svg></div>
+          <div><div class="cc-name">Wix.com</div><div class="cc-desc">Connect your Wix store</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();toast('Wix coming soon')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- IndiaMART -->
+      <div class="chcard" onclick="toast('IndiaMART coming soon')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box" style="background:#f5f5f5"><svg viewBox="0 0 60 24" width="54" height="22"><rect width="60" height="24" rx="4" fill="#0073B1"/><text x="4" y="17" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#fff">India</text><text x="30" y="17" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#FF6600">MART</text></svg></div>
+          <div><div class="cc-name">IndiaMART</div><div class="cc-desc">B2B marketplace integration</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();toast('IndiaMART coming soon')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- Manual -->
+      <div class="chcard" onclick="toast('Manual channel coming soon')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cc-logo-box"><svg viewBox="0 0 32 32" fill="none" stroke="var(--ink2)" stroke-width="1.5" width="28" height="28"><rect x="4" y="6" width="24" height="20" rx="3"/><path d="M10 12h12M10 16h8M10 20h5" stroke-linecap="round"/></svg></div>
+          <div><div class="cc-name">Manual</div><div class="cc-desc">CSV or form-based orders</div></div>
+        </div>
+        <div class="cc-footer"><button class="cc-btn" onclick="event.stopPropagation();toast('Manual coming soon')">Connect</button><span style="font-size:10px;color:var(--ink3)">Free</span></div>
+      </div>
+      <!-- Add New -->
+      <div class="chcard-add" onclick="toast('More integrations coming soon')">
+        <div class="cc-add-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M10 4v12M4 10h12" stroke-linecap="round"/></svg></div>
+        <div class="cc-add-lbl">Add New Channel</div>
+        <div class="cc-add-sub">Request a new integration</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 2 · SHOPIFY APP STORE PAGE
+═══════════════════════════════════════ -->
+<div class="view page fade" id="v2" style="display:none">
+  <div class="bc"><span class="bc-link" onclick="go('v1')">Sales Channels</span><span class="bc-sep">›</span><span class="bc-link" onclick="go('v1')">Connect New Channel</span><span class="bc-sep">›</span><span class="bc-cur">Shopify</span></div>
+
+  <!-- Shopify App Store chrome -->
+  <div style="height:52px;border-bottom:1px solid #E8E8E8;padding:0 24px;display:flex;align-items:center;justify-content:space-between;background:#fff;flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#1A1A1A">
+      <svg width="22" height="22" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 108.44 122.88" style="enable-background:new 0 0 108.44 122.88" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#95BF47;} .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#5E8E3E;} .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}</style><g><path class="st0" d="M94.98,23.66c-0.09-0.62-0.63-0.96-1.08-1c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83 c-0.72-0.72-2.13-0.5-2.68-0.34c-0.01,0-1.37,0.43-3.68,1.14c-0.38-1.25-0.95-2.78-1.76-4.32c-2.6-4.97-6.42-7.6-11.03-7.61 c-0.01,0-0.01,0-0.02,0c-0.32,0-0.64,0.03-0.96,0.06c-0.14-0.16-0.27-0.32-0.42-0.48c-2.01-2.15-4.58-3.19-7.67-3.1 c-5.95,0.17-11.88,4.47-16.69,12.11c-3.38,5.37-5.96,12.12-6.69,17.35c-6.83,2.12-11.61,3.6-11.72,3.63 c-3.45,1.08-3.56,1.19-4.01,4.44C9.03,39.99,0,109.8,0,109.8l75.65,13.08l32.79-8.15C108.44,114.73,95.06,24.28,94.98,23.66 L94.98,23.66z M66.52,16.63c-1.74,0.54-3.72,1.15-5.87,1.82c-0.04-3.01-0.4-7.21-1.81-10.83C63.36,8.47,65.58,13.58,66.52,16.63 L66.52,16.63z M56.69,19.68c-3.96,1.23-8.29,2.57-12.63,3.91c1.22-4.67,3.54-9.33,6.38-12.38c1.06-1.14,2.54-2.4,4.29-3.12 C56.38,11.52,56.73,16.39,56.69,19.68L56.69,19.68z M48.58,3.97c1.4-0.03,2.57,0.28,3.58,0.94C50.55,5.74,49,6.94,47.54,8.5 c-3.78,4.06-6.68,10.35-7.83,16.43c-3.6,1.11-7.13,2.21-10.37,3.21C31.38,18.58,39.4,4.23,48.58,3.97L48.58,3.97z"/><path class="st1" d="M93.9,22.66c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83c-0.27-0.27-0.63-0.41-1.02-0.47l0,108.68 l32.78-8.15c0,0-13.38-90.44-13.46-91.06C94.9,23.04,94.35,22.7,93.9,22.66L93.9,22.66z"/><path class="st2" d="M57.48,39.52l-3.81,14.25c0,0-4.25-1.93-9.28-1.62c-7.38,0.47-7.46,5.12-7.39,6.29 c0.4,6.37,17.16,7.76,18.11,22.69c0.74,11.74-6.23,19.77-16.27,20.41c-12.05,0.76-18.69-6.35-18.69-6.35l2.55-10.86 c0,0,6.68,5.04,12.02,4.7c3.49-0.22,4.74-3.06,4.61-5.07c-0.52-8.31-14.18-7.82-15.04-21.48c-0.73-11.49,6.82-23.14,23.48-24.19 C54.2,37.88,57.48,39.52,57.48,39.52L57.48,39.52z"/></g></svg> Shopify App Store
+    </div>
+    <div style="flex:1;max-width:380px;margin:0 20px"><div style="display:flex;align-items:center;gap:8px;background:#F5F5F5;border:1px solid #E8E8E8;border-radius:7px;height:32px;padding:0 10px"><svg viewBox="0 0 16 16" fill="none" stroke="#9CA3AF" stroke-width="1.5" width="12" height="12"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5l3 3" stroke-linecap="round"/></svg><span style="font-size:12px;color:#9CA3AF">Search apps, guides, and more</span></div></div>
+    <div style="display:flex;gap:6px"><button style="height:30px;padding:0 14px;border-radius:6px;background:#1A1A1A;color:#fff;border:none;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)">Start for free</button><button style="height:30px;padding:0 14px;border-radius:6px;background:transparent;color:#1A1A1A;border:1px solid #E8E8E8;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)">Log in</button></div>
+  </div>
+
+  <div style="display:flex;flex:1;overflow:hidden;min-height:0">
+    <!-- Left sidebar -->
+    <div style="width:250px;padding:20px;border-right:1px solid #F0F0F0;overflow-y:auto;flex-shrink:0">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+        <div style="width:52px;height:52px;border-radius:10px;border:1px solid #E8E8E8;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#F6F6F1"><svg width="38" height="38" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 108.44 122.88" style="enable-background:new 0 0 108.44 122.88" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#95BF47;} .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#5E8E3E;} .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}</style><g><path class="st0" d="M94.98,23.66c-0.09-0.62-0.63-0.96-1.08-1c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83 c-0.72-0.72-2.13-0.5-2.68-0.34c-0.01,0-1.37,0.43-3.68,1.14c-0.38-1.25-0.95-2.78-1.76-4.32c-2.6-4.97-6.42-7.6-11.03-7.61 c-0.01,0-0.01,0-0.02,0c-0.32,0-0.64,0.03-0.96,0.06c-0.14-0.16-0.27-0.32-0.42-0.48c-2.01-2.15-4.58-3.19-7.67-3.1 c-5.95,0.17-11.88,4.47-16.69,12.11c-3.38,5.37-5.96,12.12-6.69,17.35c-6.83,2.12-11.61,3.6-11.72,3.63 c-3.45,1.08-3.56,1.19-4.01,4.44C9.03,39.99,0,109.8,0,109.8l75.65,13.08l32.79-8.15C108.44,114.73,95.06,24.28,94.98,23.66 L94.98,23.66z M66.52,16.63c-1.74,0.54-3.72,1.15-5.87,1.82c-0.04-3.01-0.4-7.21-1.81-10.83C63.36,8.47,65.58,13.58,66.52,16.63 L66.52,16.63z M56.69,19.68c-3.96,1.23-8.29,2.57-12.63,3.91c1.22-4.67,3.54-9.33,6.38-12.38c1.06-1.14,2.54-2.4,4.29-3.12 C56.38,11.52,56.73,16.39,56.69,19.68L56.69,19.68z M48.58,3.97c1.4-0.03,2.57,0.28,3.58,0.94C50.55,5.74,49,6.94,47.54,8.5 c-3.78,4.06-6.68,10.35-7.83,16.43c-3.6,1.11-7.13,2.21-10.37,3.21C31.38,18.58,39.4,4.23,48.58,3.97L48.58,3.97z"/><path class="st1" d="M93.9,22.66c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83c-0.27-0.27-0.63-0.41-1.02-0.47l0,108.68 l32.78-8.15c0,0-13.38-90.44-13.46-91.06C94.9,23.04,94.35,22.7,93.9,22.66L93.9,22.66z"/><path class="st2" d="M57.48,39.52l-3.81,14.25c0,0-4.25-1.93-9.28-1.62c-7.38,0.47-7.46,5.12-7.39,6.29 c0.4,6.37,17.16,7.76,18.11,22.69c0.74,11.74-6.23,19.77-16.27,20.41c-12.05,0.76-18.69-6.35-18.69-6.35l2.55-10.86 c0,0,6.68,5.04,12.02,4.7c3.49-0.22,4.74-3.06,4.61-5.07c-0.52-8.31-14.18-7.82-15.04-21.48c-0.73-11.49,6.82-23.14,23.48-24.19 C54.2,37.88,57.48,39.52,57.48,39.52L57.48,39.52z"/></g></svg></div>
+        <div style="font-size:16px;font-weight:700;color:#1A1A1A">Xpressbees</div>
+      </div>
+      <div style="border-top:1px solid #F0F0F0;padding-top:12px;margin-bottom:12px"><div style="font-size:10px;color:#9CA3AF;font-weight:500;margin-bottom:2px">Pricing</div><div style="font-size:12px;color:#1A1A1A">Free to install.</div></div>
+      <div style="border-top:1px solid #F0F0F0;padding-top:12px;margin-bottom:12px"><div style="font-size:10px;color:#9CA3AF;font-weight:500;margin-bottom:2px">Popular with stores like yours</div><div style="font-size:12px;color:#1A1A1A">✓ Based in India</div></div>
+      <div style="border-top:1px solid #F0F0F0;padding-top:12px;margin-bottom:12px"><div style="font-size:10px;color:#9CA3AF;font-weight:500;margin-bottom:2px">Rating</div><div style="font-size:12px;color:#1A1A1A"><span style="color:#F5A623">★★★</span> 2.8 (10)</div></div>
+      <div style="border-top:1px solid #F0F0F0;padding-top:12px;margin-bottom:18px"><div style="font-size:10px;color:#9CA3AF;font-weight:500;margin-bottom:2px">Developer</div><div style="font-size:12px;color:#1A1A1A">Xpressbees</div></div>
+      <!-- INSTALL BUTTON — active -->
+      <button style="width:100%;height:46px;border-radius:10px;background:#1A1A1A;color:#fff;border:none;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font)" onclick="showModal()">Install</button>
+    </div>
+    <!-- Main content -->
+    <div style="flex:1;overflow-y:auto;padding:20px 22px">
+      <div style="width:100%;height:220px;background:linear-gradient(135deg,#1A1A1A,#2D2D2D);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;position:relative;overflow:hidden">
+        <div style="text-align:center;z-index:1"><div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">OUR MISSION</div><div style="font-size:24px;font-weight:800;color:var(--orange);letter-spacing:-1px">20kcr. by 2030</div><div onclick="toast('Video opening...')" style="width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;margin:14px auto 0;cursor:pointer"><svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M8 5v14l11-7z"/></svg></div></div>
+      </div>
+      <h2 style="font-size:17px;font-weight:700;color:#1A1A1A;margin-bottom:10px">Delivering Happiness.</h2>
+      <p style="font-size:12px;color:#4B5563;line-height:1.8;margin-bottom:12px">As a top-tier logistics provider, Xpressbees provides end-to-end domestic supply chain solutions and international logistics across 40+ Indian cities, and nationwide last-mile delivery.</p>
+      <ul style="margin-left:16px;font-size:12px;color:#4B5563;line-height:2.2">
+        <li>Leverage advanced technology to ensure reliable deliveries.</li>
+        <li>Same-day and Next-day delivery, multimodal shipping services.</li>
+        <li>Option of D+1, D+2 and other COD remittance option.</li>
+        <li>Seamless shipping workflow with one-click channel integrations.</li>
+        <li>Real Time shipment tracking to improve customer experience.</li>
+      </ul>
+    </div>
+    <!-- Right rail -->
+    <div style="width:190px;padding:20px 14px 20px 0;overflow-y:auto;flex-shrink:0">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="background:#F8F8F8;border:1px solid #E8E8E8;border-radius:8px;padding:12px"><div style="font-size:8px;color:var(--orange);font-weight:700;letter-spacing:.1em;margin-bottom:4px">XPRESSBEES</div><div style="font-size:10px;font-weight:700;color:#1A1A1A;margin-bottom:4px;line-height:1.3">EXPAND YOUR BRAND WITH XPRESSBEES</div><div style="font-size:9px;color:#6B7280;line-height:1.4">Domestic and cross-border logistics, multimodal shipping options for your business needs.</div></div>
+        <div style="background:#F8F8F8;border:1px solid #E8E8E8;border-radius:8px;padding:12px"><div style="font-size:8px;color:var(--orange);font-weight:700;letter-spacing:.1em;margin-bottom:4px">XPRESSBEES</div><div style="font-size:10px;font-weight:700;color:#1A1A1A;margin-bottom:4px;line-height:1.3">UNPARALLEL DELIVERY EXPERIENCE</div><div style="font-size:9px;color:#6B7280;line-height:1.4">Seamless shipping with XpressBees plugin to enhance the customer experience.</div></div>
+        <div style="background:#F8F8F8;border:1px solid #E8E8E8;border-radius:8px;padding:12px"><div style="font-size:8px;color:var(--orange);font-weight:700;letter-spacing:.1em;margin-bottom:4px">XPRESSBEES</div><div style="font-size:10px;font-weight:700;color:#1A1A1A;margin-bottom:4px;line-height:1.3">EFFICIENT & EASY TO USE</div><div style="font-size:9px;color:#6B7280;line-height:1.4">Manage all orders in one application. Analytics and reports to help understand your business.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 3 · CONNECTED DASHBOARD
+     (after successful install + modal close)
+═══════════════════════════════════════ -->
+<div class="view page fade" id="v3" style="display:none">
+  <div class="bc"><span class="bc-link">Manage</span><span class="bc-sep">›</span><span class="bc-cur">Sales Channels</span></div>
+  <div style="padding:16px 24px 0;display:flex;align-items:flex-start;justify-content:space-between">
+    <div><div style="font-size:20px;font-weight:700;letter-spacing:-.4px">Sales Channels</div>
+      <div style="font-size:12px;color:var(--ink3);margin-top:2px">Connect &amp; manage your sales channels to automate order syncing with XpressBees</div>
+    </div>
+    <button class="btn btn-p" onclick="go('v1')">+ Connect New Channel</button>
+  </div>
+  <div style="padding:16px 24px 40px">
+    <!-- Tip bar -->
+    <div class="tip-bar">
+      <div class="tip-ico">
+        <svg viewBox="0 0 20 20" fill="none" stroke="var(--orange)" stroke-width="1.5" width="18" height="18">
+          <path d="M10 2a6 6 0 016 6c0 2.5-1.5 4.6-3.5 5.6V15a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1.4C5.5 12.6 4 10.5 4 8a6 6 0 016-6z" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 18h4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:600;color:var(--ink)">Tip: Keep your channels active to ensure uninterrupted order syncing with XpressBees</div>
+        <div style="font-size:11px;color:var(--ink3);margin-top:1px">Orders sync automatically every few minutes when a channel is connected and active.</div>
+      </div>
+    </div>
+
+    <!-- Connected stores table -->
+    <div class="ch-tbl-wrap">
+      <table class="ch-tbl">
+        <thead><tr>
+          <th>Store Name / Channel ID</th>
+          <th>Sales Channel</th>
+          <th>Sync Info.</th>
+          <th>Connection Status</th>
+          <th>Channel Status</th>
+          <th>Action</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="store-name">My Store</div><div class="store-id">7977403</div></td>
+            <td>
+              <div class="platform-cell">
+                <div class="platform-logo" style="background:#F6F6F1"><svg width="22" height="22" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 108.44 122.88" style="enable-background:new 0 0 108.44 122.88" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#95BF47;} .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#5E8E3E;} .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}</style><g><path class="st0" d="M94.98,23.66c-0.09-0.62-0.63-0.96-1.08-1c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83 c-0.72-0.72-2.13-0.5-2.68-0.34c-0.01,0-1.37,0.43-3.68,1.14c-0.38-1.25-0.95-2.78-1.76-4.32c-2.6-4.97-6.42-7.6-11.03-7.61 c-0.01,0-0.01,0-0.02,0c-0.32,0-0.64,0.03-0.96,0.06c-0.14-0.16-0.27-0.32-0.42-0.48c-2.01-2.15-4.58-3.19-7.67-3.1 c-5.95,0.17-11.88,4.47-16.69,12.11c-3.38,5.37-5.96,12.12-6.69,17.35c-6.83,2.12-11.61,3.6-11.72,3.63 c-3.45,1.08-3.56,1.19-4.01,4.44C9.03,39.99,0,109.8,0,109.8l75.65,13.08l32.79-8.15C108.44,114.73,95.06,24.28,94.98,23.66 L94.98,23.66z M66.52,16.63c-1.74,0.54-3.72,1.15-5.87,1.82c-0.04-3.01-0.4-7.21-1.81-10.83C63.36,8.47,65.58,13.58,66.52,16.63 L66.52,16.63z M56.69,19.68c-3.96,1.23-8.29,2.57-12.63,3.91c1.22-4.67,3.54-9.33,6.38-12.38c1.06-1.14,2.54-2.4,4.29-3.12 C56.38,11.52,56.73,16.39,56.69,19.68L56.69,19.68z M48.58,3.97c1.4-0.03,2.57,0.28,3.58,0.94C50.55,5.74,49,6.94,47.54,8.5 c-3.78,4.06-6.68,10.35-7.83,16.43c-3.6,1.11-7.13,2.21-10.37,3.21C31.38,18.58,39.4,4.23,48.58,3.97L48.58,3.97z"/><path class="st1" d="M93.9,22.66c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83c-0.27-0.27-0.63-0.41-1.02-0.47l0,108.68 l32.78-8.15c0,0-13.38-90.44-13.46-91.06C94.9,23.04,94.35,22.7,93.9,22.66L93.9,22.66z"/><path class="st2" d="M57.48,39.52l-3.81,14.25c0,0-4.25-1.93-9.28-1.62c-7.38,0.47-7.46,5.12-7.39,6.29 c0.4,6.37,17.16,7.76,18.11,22.69c0.74,11.74-6.23,19.77-16.27,20.41c-12.05,0.76-18.69-6.35-18.69-6.35l2.55-10.86 c0,0,6.68,5.04,12.02,4.7c3.49-0.22,4.74-3.06,4.61-5.07c-0.52-8.31-14.18-7.82-15.04-21.48c-0.73-11.49,6.82-23.14,23.48-24.19 C54.2,37.88,57.48,39.52,57.48,39.52L57.48,39.52z"/></g></svg></div>
+                <span style="font-size:12px;font-weight:500;color:var(--ink2)">Shopify</span>
+              </div>
+            </td>
+            <td>
+              <div class="sync-line"><span class="sync-lbl">Last Order Sync: </span><span class="sync-val">10th May, 4:40 PM</span></div>
+              <div class="sync-line"><span class="sync-lbl">Last Inventory Sync: </span><span class="sync-val">8th May, 4:21 PM</span></div>
+            </td>
+            <td><span class="conn-badge">Connected</span></td>
+            <td>
+              <label class="tog"><input type="checkbox" checked onchange="toast('Channel status updated')"/><span class="tog-track"></span><span class="tog-thumb"></span></label>
+            </td>
+            <td><button class="btn btn-s btn-sm" onclick="go('v4')">Edit</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Popular channels -->
+    <div class="pop-sec">
+      <div style="font-size:12px;font-weight:600;color:var(--ink2)">Most popularly connected E-commerce, Shopping carts and Marketplaces</div>
+      <div class="pop-grid">
+        <div class="pop-card">
+          <div style="display:flex;align-items:center;gap:8px"><svg width="28" height="28" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 108.44 122.88" style="enable-background:new 0 0 108.44 122.88" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#95BF47;} .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#5E8E3E;} .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}</style><g><path class="st0" d="M94.98,23.66c-0.09-0.62-0.63-0.96-1.08-1c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83 c-0.72-0.72-2.13-0.5-2.68-0.34c-0.01,0-1.37,0.43-3.68,1.14c-0.38-1.25-0.95-2.78-1.76-4.32c-2.6-4.97-6.42-7.6-11.03-7.61 c-0.01,0-0.01,0-0.02,0c-0.32,0-0.64,0.03-0.96,0.06c-0.14-0.16-0.27-0.32-0.42-0.48c-2.01-2.15-4.58-3.19-7.67-3.1 c-5.95,0.17-11.88,4.47-16.69,12.11c-3.38,5.37-5.96,12.12-6.69,17.35c-6.83,2.12-11.61,3.6-11.72,3.63 c-3.45,1.08-3.56,1.19-4.01,4.44C9.03,39.99,0,109.8,0,109.8l75.65,13.08l32.79-8.15C108.44,114.73,95.06,24.28,94.98,23.66 L94.98,23.66z M66.52,16.63c-1.74,0.54-3.72,1.15-5.87,1.82c-0.04-3.01-0.4-7.21-1.81-10.83C63.36,8.47,65.58,13.58,66.52,16.63 L66.52,16.63z M56.69,19.68c-3.96,1.23-8.29,2.57-12.63,3.91c1.22-4.67,3.54-9.33,6.38-12.38c1.06-1.14,2.54-2.4,4.29-3.12 C56.38,11.52,56.73,16.39,56.69,19.68L56.69,19.68z M48.58,3.97c1.4-0.03,2.57,0.28,3.58,0.94C50.55,5.74,49,6.94,47.54,8.5 c-3.78,4.06-6.68,10.35-7.83,16.43c-3.6,1.11-7.13,2.21-10.37,3.21C31.38,18.58,39.4,4.23,48.58,3.97L48.58,3.97z"/><path class="st1" d="M93.9,22.66c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83c-0.27-0.27-0.63-0.41-1.02-0.47l0,108.68 l32.78-8.15c0,0-13.38-90.44-13.46-91.06C94.9,23.04,94.35,22.7,93.9,22.66L93.9,22.66z"/><path class="st2" d="M57.48,39.52l-3.81,14.25c0,0-4.25-1.93-9.28-1.62c-7.38,0.47-7.46,5.12-7.39,6.29 c0.4,6.37,17.16,7.76,18.11,22.69c0.74,11.74-6.23,19.77-16.27,20.41c-12.05,0.76-18.69-6.35-18.69-6.35l2.55-10.86 c0,0,6.68,5.04,12.02,4.7c3.49-0.22,4.74-3.06,4.61-5.07c-0.52-8.31-14.18-7.82-15.04-21.48c-0.73-11.49,6.82-23.14,23.48-24.19 C54.2,37.88,57.48,39.52,57.48,39.52L57.48,39.52z"/></g></svg><span style="font-size:14px;font-weight:600;color:#2A2A2A">shopify</span></div>
+          <a class="pop-link" onclick="toast('Opening Shopify guide...')">How to connect Shopify?</a>
+          <button class="pop-cta" onclick="go('v2')">Connect</button>
+          <div class="pop-note">Clicking "Connect" redirects you to Shopify Channel</div>
+        </div>
+        <div class="pop-card">
+          <div style="display:flex;align-items:center;gap:8px"><svg width="28" height="25" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.879 111.709" enable-background="new 0 0 122.879 111.709" xml:space="preserve"><g><path d="M33.848,54.85c0-5.139,1.266-9.533,3.798-13.182c2.532-3.649,5.995-6.404,10.389-8.266 c4.021-1.713,8.974-2.941,14.858-3.687c2.01-0.223,5.287-0.521,9.83-0.894v-1.899c0-4.766-0.521-7.968-1.564-9.607 c-1.564-2.235-4.021-3.351-7.373-3.351h-0.893c-2.458,0.223-4.581,1.005-6.368,2.345c-1.787,1.341-2.942,3.202-3.463,5.586 c-0.298,1.489-1.042,2.345-2.234,2.569l-12.847-1.564c-1.266-0.298-1.899-0.968-1.899-2.011c0-0.223,0.037-0.484,0.111-0.781 c1.266-6.628,4.375-11.543,9.328-14.746C50.473,2.161,56.264,0.373,62.893,0h2.793c8.488,0,15.117,2.197,19.885,6.591 c0.746,0.748,1.438,1.55,2.066,2.401c0.631,0.856,1.135,1.62,1.506,2.29c0.373,0.67,0.709,1.639,1.006,2.904 c0.299,1.267,0.521,2.142,0.672,2.625c0.148,0.484,0.26,1.527,0.334,3.129c0.074,1.601,0.111,2.55,0.111,2.848v27.034 c0,1.936,0.279,3.705,0.838,5.306c0.559,1.602,1.1,2.756,1.619,3.463c0.521,0.707,1.379,1.844,2.57,3.406 c0.447,0.672,0.67,1.268,0.67,1.789c0,0.596-0.297,1.115-0.895,1.563c-6.18,5.363-9.531,8.268-10.053,8.715 c-0.893,0.67-1.973,0.744-3.24,0.223c-1.041-0.895-1.953-1.75-2.736-2.57c-0.781-0.818-1.34-1.414-1.676-1.787 c-0.334-0.371-0.875-1.098-1.619-2.178s-1.268-1.807-1.564-2.178c-4.17,4.543-8.266,7.373-12.287,8.49 c-2.533,0.744-5.661,1.117-9.384,1.117c-5.735,0-10.445-1.77-14.131-5.307C35.691,66.336,33.848,61.328,33.848,54.85L33.848,54.85z M53.062,52.615c0,2.905,0.727,5.232,2.178,6.982c1.453,1.75,3.407,2.625,5.865,2.625c0.224,0,0.54-0.037,0.95-0.111 c0.408-0.076,0.688-0.113,0.838-0.113c3.127-0.818,5.547-2.828,7.26-6.031c0.82-1.415,1.434-2.96,1.844-4.636 c0.41-1.675,0.633-3.035,0.67-4.078c0.037-1.042,0.057-2.755,0.057-5.138v-2.793c-4.32,0-7.596,0.298-9.83,0.894 C56.338,42.077,53.062,46.21,53.062,52.615L53.062,52.615z"/><path fill="#FF9900" d="M99.979,88.586c0.15-0.299,0.373-0.596,0.672-0.895c1.861-1.266,3.648-2.121,5.361-2.568 c2.83-0.744,5.586-1.154,8.266-1.229c0.746-0.076,1.453-0.037,2.123,0.111c3.352,0.297,5.361,0.857,6.033,1.676 c0.297,0.447,0.445,1.117,0.445,2.01v0.783c0,2.605-0.707,5.678-2.121,9.215c-1.416,3.537-3.389,6.387-5.922,8.547 c-0.371,0.297-0.707,0.445-1.004,0.445c-0.15,0-0.299-0.037-0.447-0.111c-0.447-0.223-0.559-0.633-0.336-1.229 c2.756-6.479,4.133-10.984,4.133-13.518c0-0.818-0.148-1.414-0.445-1.787c-0.746-0.893-2.83-1.34-6.256-1.34 c-1.268,0-2.756,0.074-4.469,0.223c-1.861,0.225-3.574,0.447-5.139,0.672c-0.447,0-0.744-0.076-0.895-0.225 c-0.148-0.148-0.186-0.297-0.111-0.447C99.867,88.846,99.904,88.734,99.979,88.586L99.979,88.586z M0.223,86.688 c0.373-0.596,0.968-0.633,1.788-0.113c18.618,10.799,38.875,16.199,60.769,16.199c14.598,0,29.008-2.719,43.232-8.156 c0.371-0.148,0.912-0.371,1.619-0.67c0.709-0.297,1.211-0.521,1.508-0.67c1.117-0.447,1.992-0.223,2.625,0.67 c0.635,0.895,0.43,1.713-0.613,2.457c-1.342,0.969-3.055,2.086-5.139,3.352c-6.404,3.799-13.555,6.74-21.449,8.826 c-7.893,2.086-15.602,3.127-23.123,3.127c-11.618,0-22.603-2.029-32.954-6.088C18.134,101.563,8.862,95.846,0.67,88.475 C0.223,88.102,0,87.729,0,87.357C0,87.133,0.074,86.91,0.223,86.688L0.223,86.688z"/></g></svg><span style="font-size:14px;font-weight:700;color:#1A1A1A;letter-spacing:-1px">amazon</span></div>
+          <a class="pop-link" onclick="toast('Opening Amazon guide...')">How to connect Amazon?</a>
+          <button class="pop-cta" onclick="toast('Amazon MCF coming soon')">Connect</button>
+          <div class="pop-note">Clicking "Connect" redirects you to Amazon Channel</div>
+        </div>
+        <div class="pop-card">
+          <div style="display:flex;align-items:center;gap:8px;overflow:hidden"><svg width="40" height="25" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 503.81 299.89"><defs><style>.cls-1{fill:#7f54b3;}.cls-2{fill:#fff;}</style></defs><title>woocommerce</title><path class="cls-1" d="M46.75,0H456.84a46.94,46.94,0,0,1,47,47V203.5a46.94,46.94,0,0,1-47,47H309.78L330,299.89l-88.78-49.43H47a46.94,46.94,0,0,1-47-47V47A46.77,46.77,0,0,1,46.76,0Z"/><path class="cls-2" d="M28.69,42.8c2.86-3.89,7.16-5.94,12.9-6.35Q57.25,35.24,59.41,51.2,68.94,115.4,80.09,160l44.85-85.4q6.15-11.67,15.36-12.29c9-.61,14.54,5.12,16.8,17.2,5.12,27.24,11.67,50.38,19.45,70q8-78,27-112.64c3.07-5.73,7.57-8.6,13.51-9A17.8,17.8,0,0,1,230,32a16,16,0,0,1,6.35,11.67,17.79,17.79,0,0,1-2,9.83c-8,14.75-14.55,39.53-19.87,73.93-5.12,33.39-7,59.4-5.73,78a24.29,24.29,0,0,1-2.46,13.52c-2.46,4.51-6.15,7-10.86,7.37-5.32.41-10.85-2.05-16.17-7.57Q150.64,189.54,134,131.48q-20,39.32-29.49,59c-12.09,23.14-22.33,35-30.93,35.64C68,226.51,63.3,221.8,59.2,212Q43.54,171.72,25.41,56.52A17.44,17.44,0,0,1,28.69,42.8ZM468.81,75C461.43,62.05,450.58,54.27,436,51.2A53.72,53.72,0,0,0,425,50c-19.66,0-35.63,10.24-48.13,30.72a108.52,108.52,0,0,0-16,57.75q0,23.66,9.83,40.55c7.37,12.91,18.23,20.69,32.77,23.76A53.64,53.64,0,0,0,414.54,204c19.86,0,35.83-10.24,48.12-30.72a109.73,109.73,0,0,0,16-58C478.84,99.33,475.36,86,468.81,75ZM443,131.69c-2.86,13.51-8,23.55-15.56,30.31-5.94,5.32-11.47,7.57-16.59,6.55-4.92-1-9-5.32-12.08-13.31a52,52,0,0,1-3.69-18.64,71.48,71.48,0,0,1,1.43-14.95,66.29,66.29,0,0,1,10.86-24.37c6.76-10,13.92-14.13,21.3-12.7,4.91,1,9,5.33,12.08,13.31a52,52,0,0,1,3.69,18.64A71.47,71.47,0,0,1,443,131.69ZM340.6,75c-7.37-12.91-18.43-20.69-32.76-23.76A53.79,53.79,0,0,0,296.78,50c-19.66,0-35.64,10.24-48.13,30.72a108.52,108.52,0,0,0-16,57.75q0,23.66,9.83,40.55c7.37,12.91,18.22,20.69,32.76,23.76A53.72,53.72,0,0,0,286.33,204c19.87,0,35.84-10.24,48.13-30.72a109.72,109.72,0,0,0,16-58C350.43,99.33,347.16,86,340.6,75Zm-26,56.73c-2.86,13.51-8,23.55-15.56,30.31-5.94,5.32-11.47,7.57-16.59,6.55-4.91-1-9-5.32-12.08-13.31a52,52,0,0,1-3.69-18.64,71.48,71.48,0,0,1,1.43-14.95A66.29,66.29,0,0,1,279,97.28c6.76-10,13.92-14.13,21.3-12.7,4.91,1,9,5.33,12.08,13.31A52,52,0,0,1,316,116.53a60.45,60.45,0,0,1-1.44,15.16Z"/></svg></div>
+          <a class="pop-link" onclick="toast('Opening WooCommerce guide...')">How to connect WooCommerce?</a>
+          <button class="pop-cta" onclick="toast('WooCommerce coming soon')">Connect</button>
+          <div class="pop-note">Clicking "Connect" redirects you to WooCommerce Channel</div>
+        </div>
+        <div class="pop-card">
+          <div style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="1.5" width="22" height="22"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18" stroke-linecap="round"/></svg><span style="font-size:15px;font-weight:700;color:#1A1A1A">Manual</span></div>
+          <a class="pop-link" onclick="toast('Opening Manual channel guide...')">How to use Manual Channel?</a>
+          <button class="pop-cta" onclick="toast('Manual channel setup...')">Add</button>
+          <div class="pop-note"></div>
+        </div>
+      </div>
+      <div class="view-all" onclick="go('v1')">View All Channels</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCREEN 4 · EDIT CHANNEL (Shopify)
+═══════════════════════════════════════ -->
+<div class="view fade" id="v4" style="display:none;flex-direction:column;height:100%">
+  <div style="flex:1;display:flex;flex-direction:column;min-height:0">
+    <div class="ec-hdr">
+      <div class="ec-back" onclick="go('v3')">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M10 3L5 8l5 5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex:1">
+        <div style="width:28px;height:28px;border-radius:6px;background:#F6F6F1;border:1px solid #E8E8E8;display:flex;align-items:center;justify-content:center;overflow:hidden"><svg width="20" height="20" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 108.44 122.88" style="enable-background:new 0 0 108.44 122.88" xml:space="preserve"><style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#95BF47;} .st1{fill-rule:evenodd;clip-rule:evenodd;fill:#5E8E3E;} .st2{fill-rule:evenodd;clip-rule:evenodd;fill:#FFFFFF;}</style><g><path class="st0" d="M94.98,23.66c-0.09-0.62-0.63-0.96-1.08-1c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83 c-0.72-0.72-2.13-0.5-2.68-0.34c-0.01,0-1.37,0.43-3.68,1.14c-0.38-1.25-0.95-2.78-1.76-4.32c-2.6-4.97-6.42-7.6-11.03-7.61 c-0.01,0-0.01,0-0.02,0c-0.32,0-0.64,0.03-0.96,0.06c-0.14-0.16-0.27-0.32-0.42-0.48c-2.01-2.15-4.58-3.19-7.67-3.1 c-5.95,0.17-11.88,4.47-16.69,12.11c-3.38,5.37-5.96,12.12-6.69,17.35c-6.83,2.12-11.61,3.6-11.72,3.63 c-3.45,1.08-3.56,1.19-4.01,4.44C9.03,39.99,0,109.8,0,109.8l75.65,13.08l32.79-8.15C108.44,114.73,95.06,24.28,94.98,23.66 L94.98,23.66z M66.52,16.63c-1.74,0.54-3.72,1.15-5.87,1.82c-0.04-3.01-0.4-7.21-1.81-10.83C63.36,8.47,65.58,13.58,66.52,16.63 L66.52,16.63z M56.69,19.68c-3.96,1.23-8.29,2.57-12.63,3.91c1.22-4.67,3.54-9.33,6.38-12.38c1.06-1.14,2.54-2.4,4.29-3.12 C56.38,11.52,56.73,16.39,56.69,19.68L56.69,19.68z M48.58,3.97c1.4-0.03,2.57,0.28,3.58,0.94C50.55,5.74,49,6.94,47.54,8.5 c-3.78,4.06-6.68,10.35-7.83,16.43c-3.6,1.11-7.13,2.21-10.37,3.21C31.38,18.58,39.4,4.23,48.58,3.97L48.58,3.97z"/><path class="st1" d="M93.9,22.66c-0.45-0.04-9.19-0.17-9.19-0.17s-7.32-7.1-8.04-7.83c-0.27-0.27-0.63-0.41-1.02-0.47l0,108.68 l32.78-8.15c0,0-13.38-90.44-13.46-91.06C94.9,23.04,94.35,22.7,93.9,22.66L93.9,22.66z"/><path class="st2" d="M57.48,39.52l-3.81,14.25c0,0-4.25-1.93-9.28-1.62c-7.38,0.47-7.46,5.12-7.39,6.29 c0.4,6.37,17.16,7.76,18.11,22.69c0.74,11.74-6.23,19.77-16.27,20.41c-12.05,0.76-18.69-6.35-18.69-6.35l2.55-10.86 c0,0,6.68,5.04,12.02,4.7c3.49-0.22,4.74-3.06,4.61-5.07c-0.52-8.31-14.18-7.82-15.04-21.48c-0.73-11.49,6.82-23.14,23.48-24.19 C54.2,37.88,57.48,39.52,57.48,39.52L57.48,39.52z"/></g></svg></div>
+        <div style="font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.3px">Edit Channel</div>
+        <span class="conn-badge" style="font-size:10px">Connected</span>
+      </div>
+    </div>
+
+    <div class="ec-body">
+      <div class="ec-2col">
+        <!-- LEFT: Store Info + metadata -->
+        <div>
+          <div class="ec-card">
+            <div class="ec-card-title">Store Information</div>
+            <div class="ec-card-sub">These details are used across SMS, Email, Tracking Page &amp; Label</div>
+            <div class="ec-field"><span class="ec-label">Store URL</span><input class="ec-input" type="text" value="https://1eha7i-xt.myshopify.com" readonly/></div>
+            <div class="ec-field"><span class="ec-label">Store Name</span><input class="ec-input" type="text" value="My Store" placeholder="Enter store name"/></div>
+            <div class="ec-field">
+              <span class="ec-label">Logo <span style="font-weight:400;color:var(--ink3);text-transform:none;letter-spacing:0">(Optional)</span></span>
+              <div class="ec-upload" onclick="toast('File picker opening...')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--ink3)" stroke-width="1.5" width="20" height="20" style="margin:0 auto 5px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div style="font-size:12px;color:var(--ink3)">Upload</div>
+              </div>
+              <div class="ec-note">PNG, JPG files less than 1MB accepted</div>
+            </div>
+          </div>
+          <div class="ec-card" style="margin-bottom:0">
+            <div class="ec-card-title">Store Details</div>
+            <div class="ec-meta-row"><span class="ec-meta-lbl">Platform Type</span><span class="ec-meta-val">Shopify</span></div>
+            <div class="ec-meta-row"><span class="ec-meta-lbl">Channel ID</span><span class="ec-meta-val" style="font-family:var(--mono);font-size:11px">7977403</span></div>
+            <div class="ec-meta-row"><span class="ec-meta-lbl">Last Order Sync</span><span class="ec-meta-val">10th May, 4:40 PM</span></div>
+            <div class="ec-meta-row"><span class="ec-meta-lbl">Last Inventory Sync</span><span class="ec-meta-val">8th May, 4:21 PM</span></div>
+            <div class="ec-meta-row"><span class="ec-meta-lbl">Connection Status</span><span class="conn-badge" style="font-size:10px">Connected</span></div>
+            <div class="ec-meta-row"><span class="ec-meta-lbl">Operational Status</span><span style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;background:var(--gl);color:var(--green)">● Active</span></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Preferences -->
+        <div>
+          <div class="ec-card">
+            <div class="ec-card-title">Order Fetch Preferences</div>
+            <div class="ec-card-sub">Control how orders are fetched from Shopify to XpressBees</div>
+            <label class="ec-radio sel"><input type="radio" name="fetch" checked/><div><div class="ec-radio-title">Yes, I want all orders to be fetched</div><div class="ec-radio-desc">All unfulfilled orders from Shopify will be fetched to XpressBees panel</div></div></label>
+            <label class="ec-radio"><input type="radio" name="fetch"/><div><div class="ec-radio-title">No, I don't want any order to be fetched</div><div class="ec-radio-desc">Orders in Shopify store will not be fetched to XpressBees</div></div></label>
+            <label class="ec-radio"><input type="radio" name="fetch"/><div><div class="ec-radio-title">Setup custom preferences</div><div class="ec-radio-desc">Orders will be fetched based on conditions you set</div></div></label>
+          </div>
+          <div class="ec-info">
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <svg viewBox="0 0 20 20" fill="none" width="17" height="17" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="9" fill="var(--blue)" opacity=".15" stroke="var(--blue)" stroke-width="1.2"/><path d="M10 9.5v5M10 7h.01" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <div>
+                <div style="font-size:12px;font-weight:600;margin-bottom:5px">Changes on Shopify that will automatically update in XpressBees</div>
+                <ul style="font-size:11px;line-height:1.8;margin-left:14px">
+                  <li>Any change in order related details will reflect in XpressBees</li>
+                  <li>If an order is Cancelled in Shopify, it will be marked as Cancelled in XpressBees</li>
+                  <li>If an order is marked self-fulfilled in Shopify, it will be marked as 'Self-Fulfilled' in XpressBees</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2nd row: status mapping + commerce config -->
+      <div class="ec-2col">
+        <div class="ec-card" style="margin-bottom:0">
+          <div class="ec-card-title">Fulfillment Status Sync</div>
+          <div class="ec-card-sub">Map XpressBees shipment status to Shopify delivery status. Changes are synced automatically.</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:2px">
+            <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px">XpressBees Status</div>
+            <div style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.4px">Shopify Status</div>
+          </div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Invoiced</div><select class="ec-select"><option>Confirmed</option><option>Processing</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Ready To Ship</div><select class="ec-select"><option>Confirmed</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Pickup Scheduled</div><select class="ec-select"><option>Confirmed</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Out For Pickup</div><select class="ec-select"><option>Select a status to map</option><option>In Transit</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Picked Up</div><select class="ec-select"><option>In Transit</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Shipped</div><select class="ec-select"><option>In Transit</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">In Transit</div><select class="ec-select"><option>In Transit</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Out For Delivery</div><select class="ec-select"><option>Out For Delivery</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Delivery Delayed</div><select class="ec-select"><option>Delayed</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Delivered</div><select class="ec-select"><option>Delivered</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Undelivered</div><select class="ec-select"><option>Attempted Delivery</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">RTO Initiated</div><select class="ec-select"><option>Failed Delivery</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">RTO Delivered</div><select class="ec-select"><option>Select a status to map</option><option>Returned</option></select></div>
+          <div class="ec-map-row"><div class="ec-map-lbl">Cancelled</div><select class="ec-select"><option>Cancelled</option></select></div>
+        </div>
+
+        <div>
+          <div class="ec-card">
+            <div class="ec-card-title">Commerce Workflow Mapping</div>
+            <div class="ec-card-sub">Configure how XpressBees events appear as tags in Shopify to track operational milestones.</div>
+            <div class="ec-tag-row"><div class="ec-tag-q">Show 'Return' tag in Shopify when a return is created in XpressBees?</div><div class="ec-yesno"><label><input type="radio" name="tr" checked/> Yes</label><label><input type="radio" name="tr"/> No</label></div></div>
+            <div class="ec-tag-row"><div class="ec-tag-q">Show 'RTO Delivered' tag in Shopify when RTO Delivered status is set in XpressBees?</div><div class="ec-yesno"><label><input type="radio" name="trto" checked/> Yes</label><label><input type="radio" name="trto"/> No</label></div></div>
+            <div class="ec-tag-row"><div class="ec-tag-q">Show 'Paid' status in Shopify after COD remittance is confirmed in XpressBees?</div><div class="ec-yesno"><label><input type="radio" name="tpaid" checked/> Yes</label><label><input type="radio" name="tpaid"/> No</label></div></div>
+          </div>
+          <div class="ec-card" style="margin-bottom:0">
+            <div class="ec-card-title">Push Preferences: XpressBees → Shopify</div>
+            <div class="ec-card-sub">Control what XpressBees pushes back to Shopify on status changes.</div>
+            <div class="ec-tag-row"><div class="ec-tag-q">Push shipment tracking URL to Shopify on dispatch?</div><div class="ec-yesno"><label><input type="radio" name="pp1" checked/> Yes</label><label><input type="radio" name="pp1"/> No</label></div></div>
+            <div class="ec-tag-row"><div class="ec-tag-q">Update Shopify fulfillment status when shipment is delivered?</div><div class="ec-yesno"><label><input type="radio" name="pp2" checked/> Yes</label><label><input type="radio" name="pp2"/> No</label></div></div>
+            <div class="ec-tag-row"><div class="ec-tag-q">Sync cancellation events from XpressBees back to Shopify?</div><div class="ec-yesno"><label><input type="radio" name="pp3" checked/> Yes</label><label><input type="radio" name="pp3"/> No</label></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ec-ft">
+      <div style="font-size:11px;color:var(--ink3)">Last saved: 10th May 2026, 4:40 PM</div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-s btn-sm" onclick="go('v3')">Cancel</button>
+        <button class="btn btn-p" onclick="saveAndReturn()" style="min-width:140px">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- SUCCESS MODAL -->
+<div class="mo-ov" id="moInst" onclick="if(event.target===this)closeModal()">
+  <div class="mo">
+    <div class="mo-x" onclick="closeModal()">✕</div>
+    <div class="mo-ring"><svg viewBox="0 0 34 34" fill="none" width="34" height="34"><path d="M8 17l6 6 12-12" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="mo-title">Your Shopify store 'My Store' is Connected!</div>
+    <div class="mo-sync">
+      <div class="mo-sync-dot"></div>
+      <span>We are syncing your last 30 days orders. It may take a few minutes.</span>
+    </div>
+  </div>
+</div>
+
+<!-- SAVE SUCCESS MODAL -->
+<div class="mo-ov" id="moSave" onclick="if(event.target===this){document.getElementById('moSave').classList.remove('sh');go('v3')}">
+  <div class="mo" style="max-width:420px;padding:36px">
+    <div class="mo-x" onclick="document.getElementById('moSave').classList.remove('sh');go('v3')">✕</div>
+    <div class="mo-ring"><svg viewBox="0 0 34 34" fill="none" width="34" height="34"><path d="M8 17l6 6 12-12" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="mo-title" style="font-size:17px">Changes Saved Successfully</div>
+    <div style="font-size:12px;color:#6B7280;margin-top:8px;line-height:1.7">Your channel settings have been updated.<br>Changes take effect on the next sync.</div>
+  </div>
+</div>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.view').forEach(function(v) {
+    v.classList.remove('on');
+    v.style.display = 'none';
+  });
+  var el = document.getElementById(id);
+  if (!el) return;
+  // v4 needs flex layout
+  if (id === 'v4' || id === 'v2') {
+    el.style.display = 'flex';
+    el.style.flexDirection = 'column';
+    el.style.height = '100%';
+  } else {
+    el.style.display = 'block';
+  }
+  el.classList.add('on');
+  el.classList.add('fade');
+  setTimeout(function() { el.classList.remove('fade'); }, 400);
+}
+
+function showModal() {
+  document.getElementById('moInst').classList.add('sh');
+}
+function closeModal() {
+  document.getElementById('moInst').classList.remove('sh');
+  go('v3');
+  setTimeout(function() { toast('\u2713 Shopify connected \u2014 orders are syncing'); }, 300);
+}
+
+function saveAndReturn() {
+  document.getElementById('moSave').classList.add('sh');
+  setTimeout(function() {
+    document.getElementById('moSave').classList.remove('sh');
+    go('v3');
+    toast('\u2713 Channel settings saved successfully');
+  }, 2000);
+}
+
+function toast(msg) {
+  var t = document.getElementById('toastEl');
+  t.textContent = msg;
+  t.classList.add('sh');
+  clearTimeout(t._t);
+  t._t = setTimeout(function() { t.classList.remove('sh'); }, 2800);
+}
+
+go('v1');
+</script>
+</body>
+</html>
