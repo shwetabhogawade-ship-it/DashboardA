@@ -1,329 +1,676 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=1440"/>
-<title>XpressBees Seller Platform — Prototype Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#F4F3EF;--surface:#FFF;--s2:#F8F7F3;--s3:#EEECEA;
-  --border:#E2E0D8;--border2:#C5C3BB;
-  --ink:#1A190F;--ink2:#5C5B52;--ink3:#9B998F;
-  --orange:#E8520A;--ol:#FEF0E8;
-  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
-  --shadow:0 1px 4px rgba(0,0,0,.06);
-  --shadow-md:0 4px 20px rgba(0,0,0,.09);
-  --shadow-hover:0 8px 32px rgba(0,0,0,.13);
-}
-html,body{min-height:100%;font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.5}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440" />
+    <title>XpressBees Seller Platform — Prototype Hub</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
 
-/* ── HERO HEADER ── */
-.header{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  padding:0 48px;
-  height:64px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:10;
-}
-.header-brand{display:flex;align-items:center;gap:10px}
-.brand-mark{
-  width:34px;height:34px;background:var(--orange);border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-}
-.brand-mark svg{width:18px;height:18px;fill:#fff}
-.brand-name{font-size:15px;font-weight:800;color:var(--ink);letter-spacing:-.4px}
-.brand-sub{font-size:11px;color:var(--ink3);font-weight:500;margin-left:2px;letter-spacing:.2px}
-.header-meta{display:flex;align-items:center;gap:16px}
-.header-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:4px 12px;border-radius:20px;
-  background:var(--ol);border:1px solid #f5c09a;
-  font-size:11px;font-weight:700;color:var(--orange);
-}
-.header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--orange);flex-shrink:0;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.header-count{font-size:12px;color:var(--ink3)}
+        :root {
+            --bg: #F4F3EF;
+            --surface: #FFF;
+            --s2: #F8F7F3;
+            --s3: #EEECEA;
+            --border: #E2E0D8;
+            --border2: #C5C3BB;
+            --ink: #1A190F;
+            --ink2: #5C5B52;
+            --ink3: #9B998F;
+            --orange: #E8520A;
+            --ol: #FEF0E8;
+            --font: 'DM Sans', sans-serif;
+            --mono: 'DM Mono', monospace;
+            --shadow: 0 1px 4px rgba(0, 0, 0, .06);
+            --shadow-md: 0 4px 20px rgba(0, 0, 0, .09);
+            --shadow-hover: 0 8px 32px rgba(0, 0, 0, .13);
+        }
 
-/* ── HERO ── */
-.hero{
-  padding:52px 48px 40px;
-  background:linear-gradient(135deg, #0F0E09 0%, #1A1914 50%, #252320 100%);
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;right:-120px;top:-80px;
-  width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle, rgba(232,82,10,.15) 0%, transparent 70%);
-  pointer-events:none;
-}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:11px;font-weight:700;color:rgba(232,82,10,.8);
-  text-transform:uppercase;letter-spacing:.8px;
-  margin-bottom:14px;
-}
-.hero-eyebrow::before{content:'';width:16px;height:1px;background:var(--orange);opacity:.6}
-.hero h1{
-  font-size:32px;font-weight:800;color:#fff;letter-spacing:-.8px;
-  line-height:1.15;margin-bottom:14px;max-width:560px;
-}
-.hero h1 span{color:var(--orange)}
-.hero p{
-  font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;
-  max-width:480px;margin-bottom:28px;
-}
-.hero-pills{display:flex;flex-wrap:wrap;gap:8px}
-.hero-pill{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 12px;border-radius:20px;
-  border:1px solid rgba(255,255,255,.12);
-  font-size:11px;font-weight:500;color:rgba(255,255,255,.6);
-}
-.hero-pill svg{width:11px;height:11px;opacity:.7}
+        html,
+        body {
+            min-height: 100%;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.5
+        }
 
-/* ── SECTION ── */
-.section{padding:36px 48px 60px}
-.section-title{
-  font-size:13px;font-weight:700;color:var(--ink3);
-  text-transform:uppercase;letter-spacing:.6px;
-  margin-bottom:20px;display:flex;align-items:center;gap:10px;
-}
-.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+        /* ── HERO HEADER ── */
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 0 48px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
 
-/* ── MODULE GRID ── */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-}
-@media(max-width:1200px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
 
-/* ── CARD ── */
-.card{
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:13px;
-  padding:20px;
-  text-decoration:none;
-  color:inherit;
-  display:flex;flex-direction:column;gap:10px;
-  transition:border-color .18s, box-shadow .18s, transform .18s;
-  cursor:pointer;
-  position:relative;
-  overflow:hidden;
-}
-.card::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--accent);
-  opacity:0;transition:opacity .18s;
-}
-.card:hover{
-  border-color:var(--border2);
-  box-shadow:var(--shadow-hover);
-  transform:translateY(-2px);
-}
-.card:hover::before{opacity:1}
-.card:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            background: var(--orange);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.card-header{display:flex;align-items:flex-start;gap:8px}
-.card-icon{
-  width:40px;height:40px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
-.card-badge{
-  margin-left:auto;
-  padding:2px 8px;border-radius:10px;
-  background:var(--rl);color:#C52E18;
-  font-size:10px;font-weight:700;
-}
-.card-arrow{
-  margin-left:auto;color:var(--ink3);
-  opacity:0;transition:opacity .18s,transform .18s;
-}
-.card:hover .card-arrow{opacity:1;transform:translateX(2px)}
-.card-title{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.2px}
-.card-desc{font-size:11.5px;color:var(--ink3);line-height:1.55}
+        .brand-mark svg {
+            width: 18px;
+            height: 18px;
+            fill: #fff
+        }
 
-/* ── SIDEBAR CARD (special full-width) ── */
-.card-sidebar-wrap{margin-top:14px}
-.card.card-sidebar{
-  flex-direction:row;align-items:center;gap:16px;
-  background:var(--s2);border-style:dashed;
-  padding:16px 20px;
-}
-.card.card-sidebar .card-icon{background:rgba(26,25,22,.08);color:#1A1914}
-.card.card-sidebar .card-title{font-size:13px}
-.card.card-sidebar .card-desc{font-size:11px}
-.card.card-sidebar .card-content{flex:1}
-.card.card-sidebar .card-arrow{opacity:.4;margin-left:0}
-.card.card-sidebar:hover .card-arrow{opacity:1;transform:translateX(3px)}
+        .brand-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -.4px
+        }
 
-/* ── FOOTER ── */
-.footer{
-  padding:20px 48px;
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  font-size:11px;color:var(--ink3);
-  background:var(--surface);
-}
-.footer-links{display:flex;gap:18px}
-.footer-links span{cursor:pointer;transition:color .12s}
-.footer-links span:hover{color:var(--ink2)}
-</style>
+        .brand-sub {
+            font-size: 11px;
+            color: var(--ink3);
+            font-weight: 500;
+            margin-left: 2px;
+            letter-spacing: .2px
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px
+        }
+
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--ol);
+            border: 1px solid #f5c09a;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .header-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--orange);
+            flex-shrink: 0;
+            animation: pulse 2s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .4
+            }
+        }
+
+        .header-count {
+            font-size: 12px;
+            color: var(--ink3)
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 52px 48px 40px;
+            background: linear-gradient(135deg, #0F0E09 0%, #1A1914 50%, #252320 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            right: -120px;
+            top: -80px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(232, 82, 10, .15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(232, 82, 10, .8);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 14px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            width: 16px;
+            height: 1px;
+            background: var(--orange);
+            opacity: .6
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.8px;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            max-width: 560px;
+        }
+
+        .hero h1 span {
+            color: var(--orange)
+        }
+
+        .hero p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .5);
+            line-height: 1.7;
+            max-width: 480px;
+            margin-bottom: 28px;
+        }
+
+        .hero-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .6);
+        }
+
+        .hero-pill svg {
+            width: 11px;
+            height: 11px;
+            opacity: .7
+        }
+
+        /* ── SECTION ── */
+        .section {
+            padding: 36px 48px 60px
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink3);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border)
+        }
+
+        /* ── MODULE GRID ── */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        @media(max-width:1200px) {
+            .grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        @media(max-width:900px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--surface);
+            border: 1.5px solid var(--border);
+            border-radius: 13px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color .18s, box-shadow .18s, transform .18s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity .18s;
+        }
+
+        .card:hover {
+            border-color: var(--border2);
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .card:hover::before {
+            opacity: 1
+        }
+
+        .card:focus-visible {
+            outline: 2px solid var(--orange);
+            outline-offset: 2px
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .card-badge {
+            margin-left: auto;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: var(--rl);
+            color: #C52E18;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .card-arrow {
+            margin-left: auto;
+            color: var(--ink3);
+            opacity: 0;
+            transition: opacity .18s, transform .18s;
+        }
+
+        .card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(2px)
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -.2px
+        }
+
+        .card-desc {
+            font-size: 11.5px;
+            color: var(--ink3);
+            line-height: 1.55
+        }
+
+        /* ── SIDEBAR CARD (special full-width) ── */
+        .card-sidebar-wrap {
+            margin-top: 14px
+        }
+
+        .card.card-sidebar {
+            flex-direction: row;
+            align-items: center;
+            gap: 16px;
+            background: var(--s2);
+            border-style: dashed;
+            padding: 16px 20px;
+        }
+
+        .card.card-sidebar .card-icon {
+            background: rgba(26, 25, 22, .08);
+            color: #1A1914
+        }
+
+        .card.card-sidebar .card-title {
+            font-size: 13px
+        }
+
+        .card.card-sidebar .card-desc {
+            font-size: 11px
+        }
+
+        .card.card-sidebar .card-content {
+            flex: 1
+        }
+
+        .card.card-sidebar .card-arrow {
+            opacity: .4;
+            margin-left: 0
+        }
+
+        .card.card-sidebar:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(3px)
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            padding: 20px 48px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--ink3);
+            background: var(--surface);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px
+        }
+
+        .footer-links span {
+            cursor: pointer;
+            transition: color .12s
+        }
+
+        .footer-links span:hover {
+            color: var(--ink2)
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-brand">
-    <div class="brand-mark">
-      <svg viewBox="0 0 20 20"><path d="M3 5l5 7-5 7h4l3.5-5L14 19h4l-5-7 5-7h-4l-3.5 5L7 5H3z"/></svg>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-brand">
+            <div class="brand-mark">
+                <svg viewBox="0 0 20 20">
+                    <path d="M3 5l5 7-5 7h4l3.5-5L14 19h4l-5-7 5-7h-4l-3.5 5L7 5H3z" />
+                </svg>
+            </div>
+            <div>
+                <span class="brand-name">XPRESSBEES</span>
+                <span class="brand-sub">Seller Platform</span>
+            </div>
+        </div>
+        <div class="header-meta">
+            <div class="header-badge">
+                <svg viewBox="0 0 10 10" width="8" height="8" fill="none">
+                    <circle cx="5" cy="5" r="4" fill="currentColor" />
+                </svg>
+                Prototype
+            </div>
+            <span class="header-count">8 modules</span>
+        </div>
     </div>
-    <div>
-      <span class="brand-name">XPRESSBEES</span>
-      <span class="brand-sub">Seller Platform</span>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-eyebrow">XpressBees Seller Platform</div>
+        <h1>Interactive <span>Prototype</span><br />Module Hub</h1>
+        <p>All screens and modules in one place. Click any card to open the module. Each module is fully interactive
+            with
+            working flows, real data, and navigation.</p>
+        <div class="hero-pills">
+            <span class="hero-pill">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <circle cx="6" cy="6" r="5" />
+                    <path d="M4 6l1.5 1.5L8 4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Static HTML · No build required
+            </span>
+            <span class="hero-pill">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <rect x="1.5" y="1.5" width="9" height="9" rx="1.5" />
+                    <path d="M4 6h4M6 4v4" stroke-linecap="round" />
+                </svg>
+                DM Sans · XB Design System
+            </span>
+            <span class="hero-pill">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4">
+                    <path d="M1.5 9.5l3-3 2.5 2.5L10 4.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Production-ready UX flows
+            </span>
+        </div>
     </div>
-  </div>
-  <div class="header-meta">
-    <div class="header-badge">
-      <svg viewBox="0 0 10 10" width="8" height="8" fill="none"><circle cx="5" cy="5" r="4" fill="currentColor"/></svg>
-      Prototype
+
+    <!-- MODULE GRID -->
+    <div class="section">
+        <div class="section-title">Modules</div>
+        <div class="grid">
+            <a class="card" href="mod-dashboard.html" style="--accent:#E8520A">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#E8520A;background:#E8520A1a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <path
+                                d="M3 1.5H21C21.8 1.5 22.5 2.2 22.5 3V21C22.5 21.8 21.8 22.5 21 22.5H3C2.2 22.5 1.5 21.8 1.5 21V3C1.5 2.2 2.2 1.5 3 1.5Z"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path
+                                d="M7 5.5H8.6C9.4 5.5 10.1 6.2 10.1 7V17C10.1 17.8 9.4 18.5 8.6 18.5H7C6.2 18.5 5.5 17.8 5.5 17V7C5.5 6.2 6.2 5.5 7 5.5Z"
+                                fill="currentColor" stroke="currentColor" stroke-width="1.2" />
+                            <path
+                                d="M13 5.5H15C15.8 5.5 16.5 6.2 16.5 7V17C16.5 17.8 15.8 18.5 15 18.5H13C12.2 18.5 11.5 17.8 11.5 17V7C11.5 6.2 12.2 5.5 13 5.5Z"
+                                stroke="currentColor" stroke-width="1.2" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Dashboard</div>
+                <div class="card-desc">Orders & Shipments overview, NDR, RTO analytics</div>
+            </a>
+            <a class="card" href="info-center.html" style="--accent:#1246A0">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#1246A0;background:#1246A01a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <circle cx="12" cy="12" r="10.5" stroke="currentColor" stroke-width="1.5" />
+                            <path fill-rule="evenodd" d="M13 8V6h-2v2h2zM11 11.5H9v-2h4v6h2v2H9v-2h2v-4z"
+                                fill="currentColor" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Information Center</div>
+                <div class="card-desc">Rate Calculator, Rate Card, Pincode Serviceability</div>
+            </a>
+            <a class="card" href="mod-ndr.html" style="--accent:#9E5A00">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#9E5A00;background:#9E5A001a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <path d="M5 4.5h10.6c.5 0 1 .25 1.3.67L19.3 8.8H1.6L4.1 5.16c.28-.41.74-.66 1.24-.66z"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path
+                                d="M10.8 4.5v4.8h8.5V21c0 .83-.67 1.5-1.5 1.5H3c-.83 0-1.5-.67-1.5-1.5V9.3h8.5V4.5h.8z"
+                                stroke="currentColor" stroke-width="1.5" />
+                        </svg></div>
+                    <span class="card-badge">28</span>
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">NDR Management</div>
+                <div class="card-desc">Non-Delivery Reports, RTO analytics, response funnels</div>
+            </a>
+            <a class="card" href="mod-wallet.html" style="--accent:#1A6B3A">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#1A6B3A;background:#1A6B3A1a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <rect x="1.5" y="3" width="21" height="18" rx="2" stroke="currentColor"
+                                stroke-width="1.5" />
+                            <path d="M1.5 8h21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                            <circle cx="16" cy="14" r="1.5" fill="currentColor" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Wallet</div>
+                <div class="card-desc">Transaction history, recharge, remittance tracking</div>
+            </a>
+            <a class="card" href="support.html" style="--accent:#1246A0">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#1246A0;background:#1246A01a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <path
+                                d="M12 1.5C17.8 1.5 22.5 6.2 22.5 12S17.8 22.5 12 22.5H2c-.4 0-.63-.43-.42-.76l1.55-2.49c.33-.52.29-1.17-.02-1.66C1.09 16 .5 14.08.5 12 .5 6.2 6.2 1.5 12 1.5z"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path fill-rule="evenodd"
+                                d="M9.9 9.5a2.04 2.04 0 013.94.5c0 .07-.03.13-.08.18l-2.59 2.3c-.21.19-.33.46-.33.72v.8c0 .55.45 1 1 1h.08c.51 0 .92-.41.92-.92a.9.9 0 01.25-.62l2.36-2.09c.21-.19.33-.45.33-.73V9.5a4.5 4.5 0 10-6 0h1.12zm2.04 6.5a1 1 0 100 2 1 1 0 000-2z"
+                                fill="currentColor" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Support</div>
+                <div class="card-desc">Ticket management, AWB validation, CSAT workflows</div>
+            </a>
+            <a class="card" href="reports.html" style="--accent:#5C5B52">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#5C5B52;background:#5C5B521a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <path d="M4 3h12a1 1 0 011 1v13a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z"
+                                stroke="currentColor" stroke-width="1.5" />
+                            <path d="M7 8h6M7 11h4M7 14h2" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Reports</div>
+                <div class="card-desc">Scheduled report builder, email delivery configuration</div>
+            </a>
+            <a class="card" href="channels.html" style="--accent:#E8520A">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#E8520A;background:#E8520A1a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <path d="M3 9l4-4 4 4 4-4M3 15l4-4 4 4 4-4" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Sales Channels</div>
+                <div class="card-desc">Shopify, WooCommerce, Amazon — connect & manage stores</div>
+            </a>
+            <a class="card" href="sidebar-nav.html" style="--accent:#0F0E09">
+                <div class="card-header">
+                    <div class="card-icon" style="color:#0F0E09;background:#0F0E091a"><svg viewBox="0 0 24 24"
+                            fill="none" width="22" height="22">
+                            <rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M8 2v20M12 7h6M12 11h4M12 15h5" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" />
+                        </svg></div>
+
+                    <div class="card-arrow">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14"
+                            height="14">
+                            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-title">Navigation Sidebar</div>
+                <div class="card-desc">Collapsible sidebar with all module links & routing</div>
+            </a>
+        </div>
     </div>
-    <span class="header-count">8 modules</span>
-  </div>
-</div>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-eyebrow">XpressBees Seller Platform</div>
-  <h1>Interactive <span>Prototype</span><br/>Module Hub</h1>
-  <p>All screens and modules in one place. Click any card to open the module. Each module is fully interactive with working flows, real data, and navigation.</p>
-  <div class="hero-pills">
-    <span class="hero-pill">
-      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="6" r="5"/><path d="M4 6l1.5 1.5L8 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Static HTML · No build required
-    </span>
-    <span class="hero-pill">
-      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1.5" y="1.5" width="9" height="9" rx="1.5"/><path d="M4 6h4M6 4v4" stroke-linecap="round"/></svg>
-      DM Sans · XB Design System
-    </span>
-    <span class="hero-pill">
-      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M1.5 9.5l3-3 2.5 2.5L10 4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Production-ready UX flows
-    </span>
-  </div>
-</div>
-
-<!-- MODULE GRID -->
-<div class="section">
-  <div class="section-title">Modules</div>
-  <div class="grid">
-    <a class="card" href="mod-dashboard.html" style="--accent:#E8520A">
-      <div class="card-header">
-        <div class="card-icon" style="color:#E8520A;background:#E8520A1a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 1.5H21C21.8 1.5 22.5 2.2 22.5 3V21C22.5 21.8 21.8 22.5 21 22.5H3C2.2 22.5 1.5 21.8 1.5 21V3C1.5 2.2 2.2 1.5 3 1.5Z" stroke="currentColor" stroke-width="1.5"/><path d="M7 5.5H8.6C9.4 5.5 10.1 6.2 10.1 7V17C10.1 17.8 9.4 18.5 8.6 18.5H7C6.2 18.5 5.5 17.8 5.5 17V7C5.5 6.2 6.2 5.5 7 5.5Z" fill="currentColor" stroke="currentColor" stroke-width="1.2"/><path d="M13 5.5H15C15.8 5.5 16.5 6.2 16.5 7V17C16.5 17.8 15.8 18.5 15 18.5H13C12.2 18.5 11.5 17.8 11.5 17V7C11.5 6.2 12.2 5.5 13 5.5Z" stroke="currentColor" stroke-width="1.2"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <!-- FOOTER -->
+    <div class="footer">
+        <span>XpressBees Seller Platform · Interactive Prototype</span>
+        <div class="footer-links">
+            <span>DM Sans · DM Mono</span>
+            <span>XB Design System v1</span>
+            <span>HTML · CSS · Vanilla JS</span>
         </div>
-      </div>
-      <div class="card-title">Dashboard</div>
-      <div class="card-desc">Orders & Shipments overview, NDR, RTO analytics</div>
-    </a>
-    <a class="card" href="info-center.html" style="--accent:#1246A0">
-      <div class="card-header">
-        <div class="card-icon" style="color:#1246A0;background:#1246A01a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><circle cx="12" cy="12" r="10.5" stroke="currentColor" stroke-width="1.5"/><path fill-rule="evenodd" d="M13 8V6h-2v2h2zM11 11.5H9v-2h4v6h2v2H9v-2h2v-4z" fill="currentColor"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">Information Center</div>
-      <div class="card-desc">Rate Calculator, Rate Card, Pincode Serviceability</div>
-    </a>
-    <a class="card" href="mod-ndr.html" style="--accent:#9E5A00">
-      <div class="card-header">
-        <div class="card-icon" style="color:#9E5A00;background:#9E5A001a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M5 4.5h10.6c.5 0 1 .25 1.3.67L19.3 8.8H1.6L4.1 5.16c.28-.41.74-.66 1.24-.66z" stroke="currentColor" stroke-width="1.5"/><path d="M10.8 4.5v4.8h8.5V21c0 .83-.67 1.5-1.5 1.5H3c-.83 0-1.5-.67-1.5-1.5V9.3h8.5V4.5h.8z" stroke="currentColor" stroke-width="1.5"/></svg></div>
-        <span class="card-badge">28</span>
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">NDR Management</div>
-      <div class="card-desc">Non-Delivery Reports, RTO analytics, response funnels</div>
-    </a>
-    <a class="card" href="mod-wallet.html" style="--accent:#1A6B3A">
-      <div class="card-header">
-        <div class="card-icon" style="color:#1A6B3A;background:#1A6B3A1a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><rect x="1.5" y="3" width="21" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1.5 8h21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="16" cy="14" r="1.5" fill="currentColor"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">Wallet</div>
-      <div class="card-desc">Transaction history, recharge, remittance tracking</div>
-    </a>
-    <a class="card" href="support-v2.html" style="--accent:#1246A0">
-      <div class="card-header">
-        <div class="card-icon" style="color:#1246A0;background:#1246A01a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M12 1.5C17.8 1.5 22.5 6.2 22.5 12S17.8 22.5 12 22.5H2c-.4 0-.63-.43-.42-.76l1.55-2.49c.33-.52.29-1.17-.02-1.66C1.09 16 .5 14.08.5 12 .5 6.2 6.2 1.5 12 1.5z" stroke="currentColor" stroke-width="1.5"/><path fill-rule="evenodd" d="M9.9 9.5a2.04 2.04 0 013.94.5c0 .07-.03.13-.08.18l-2.59 2.3c-.21.19-.33.46-.33.72v.8c0 .55.45 1 1 1h.08c.51 0 .92-.41.92-.92a.9.9 0 01.25-.62l2.36-2.09c.21-.19.33-.45.33-.73V9.5a4.5 4.5 0 10-6 0h1.12zm2.04 6.5a1 1 0 100 2 1 1 0 000-2z" fill="currentColor"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">Support</div>
-      <div class="card-desc">Ticket management, AWB validation, CSAT workflows</div>
-    </a>
-    <a class="card" href="reports.html" style="--accent:#5C5B52">
-      <div class="card-header">
-        <div class="card-icon" style="color:#5C5B52;background:#5C5B521a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M4 3h12a1 1 0 011 1v13a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/><path d="M7 8h6M7 11h4M7 14h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">Reports</div>
-      <div class="card-desc">Scheduled report builder, email delivery configuration</div>
-    </a>
-    <a class="card" href="channels.html" style="--accent:#E8520A">
-      <div class="card-header">
-        <div class="card-icon" style="color:#E8520A;background:#E8520A1a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><path d="M3 9l4-4 4 4 4-4M3 15l4-4 4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">Sales Channels</div>
-      <div class="card-desc">Shopify, WooCommerce, Amazon — connect & manage stores</div>
-    </a>
-    <a class="card" href="sidebar-nav.html" style="--accent:#0F0E09">
-      <div class="card-header">
-        <div class="card-icon" style="color:#0F0E09;background:#0F0E091a"><svg viewBox="0 0 24 24" fill="none" width="22" height="22"><rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 2v20M12 7h6M12 11h4M12 15h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
-        
-        <div class="card-arrow">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div class="card-title">Navigation Sidebar</div>
-      <div class="card-desc">Collapsible sidebar with all module links & routing</div>
-    </a>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer">
-  <span>XpressBees Seller Platform · Interactive Prototype</span>
-  <div class="footer-links">
-    <span>DM Sans · DM Mono</span>
-    <span>XB Design System v1</span>
-    <span>HTML · CSS · Vanilla JS</span>
-  </div>
-</div>
+    </div>
 
 </body>
+
 </html>
